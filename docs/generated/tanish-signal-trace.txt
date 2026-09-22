@@ -1,0 +1,456 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.1 Rent Affordability
+  SOURCE FIELDS      simulation.proposedRent, prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 77467
+  RAW EVIDENCE       proposed rent: 40000
+  NORMALIZED         income basis: not stated
+  NORMALIZED         monthly income: 77467
+  NORMALIZED         conditional: true
+  DERIVED FACT       rent-to-income %: 51.63
+  DERIVED FACT       total obligations %: 91.61
+  DERIVED FACT       capacity: 54200
+  RULE               rent.rtr = 51.63 → rtr_50_plus
+  FORMULA            RTR = proposed monthly rent ÷ normalised monthly income × 100
+  THRESHOLD          rtr_50_plus: 50 to ∞ → Additional Financial Evidence Required (score 35)
+  RESULT             Additional Financial Evidence Required
+  CONFIDENCE         Medium
+  FINDING            Additional financial evidence is required to support the proposed rent at the assessed rent-to-income level.
+  WEIGHTED INTO      Rent-to-Income Fit (25%)
+
+4.2 Rent Capacity Band
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 77467
+  NORMALIZED         income basis: not stated
+  NORMALIZED         assessable monthly income: 77467
+  NORMALIZED         conditional: true
+  DERIVED FACT       capacity percentage: 70%
+  DERIVED FACT       obligations deducted: none — EMI is not an input
+  DERIVED FACT       calculated capacity: 54226.9
+  DERIVED FACT       rounding step: 100
+  DERIVED FACT       rounded capacity: 54200
+  RULE               capacity = floor((assessable monthly income × 70%) ÷ 100) × 100 — obligations are not an input
+  FORMULA            capacity = floor((assessable monthly income × capacity %) ÷ rounding) × rounding
+  THRESHOLD          no threshold matched
+  RESULT             Up to ₹54,200
+  CONFIDENCE         Medium
+  FINDING            Can support rent up to ₹54,200/month. Above ₹1,00,000, income verification required.
+
+4.3 Income Confidence
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis, income.verified, income.sourceConsistent
+  RAW EVIDENCE       reported income: 77467
+  NORMALIZED         basis stated: false
+  NORMALIZED         verified: false
+  DERIVED FACT       assessable monthly: 77467
+  DERIVED FACT       conditional: true
+  RULE               income evidence → basis_unknown
+  THRESHOLD          inc_low: when basis_unknown
+  RESULT             Low
+  CONFIDENCE         Basis unavailable
+  FINDING            Income is reported, but its basis is unavailable; supporting income documentation would increase confidence.
+
+4.4 Income Group
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 77467
+  NORMALIZED         basis stated: false
+  NORMALIZED         verified: false
+  DERIVED FACT       assessable monthly: 77467
+  DERIVED FACT       conditional: true
+  RULE               monthly income 77467 → income group band
+  FORMULA            group = band containing normalised monthly income
+  THRESHOLD          grp_c: 50000 to 99999 → C (score 70)
+  RESULT             C, conditional
+  CONFIDENCE         Medium
+  FINDING            Income group is based on a monthly income interpretation inferred from available evidence and should be confirmed with supporting documentation.
+
+4.5 Financial Depth
+  SOURCE FIELDS      cibil.accounts[].sanctionedAmount, cibil.accounts[].creditLimit
+  RAW EVIDENCE       bureau accounts: 14
+  RAW EVIDENCE       monthly status markers: 116
+  NORMALIZED         accounts read: 14
+  DERIVED FACT       effective exposure: 2482255
+  RULE               credit.effectiveExposure = 2482255 → depth_strong
+  FORMULA            effective exposure = Σ (sanctioned or limit × (closed ? closedAccountWeight : 1))
+  THRESHOLD          depth_strong: 1500000 to 2999999 → Strong (score 82)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            Strong financial depth based on the available credit profile.
+  WEIGHTED INTO      Financial Depth (15%)
+
+4.6 Financial Maturity
+  SOURCE FIELDS      cibil.accounts[].openedDate, cibil.totalAccounts
+  RAW EVIDENCE       bureau accounts: 14
+  RAW EVIDENCE       monthly status markers: 116
+  NORMALIZED         oldest account opened: 2024-09-24
+  DERIVED FACT       file age (months): 24
+  DERIVED FACT       accounts: 14
+  RULE               credit.fileAgeMonths = 24 → age_established
+  FORMULA            file age = months(oldest account opening → report date)
+  THRESHOLD          age_established: 24 to 47 → Established (score 75)
+  RESULT             Established
+  CONFIDENCE         High
+  FINDING            Credit history of 24 months; 14 accounts.
+
+4.7 Financial Stress Signal
+  SOURCE FIELDS      cibil.accounts[].amountOverdue, cibil.accounts[].monthlyPayStatus, cibil.accounts[].creditLimit, cibil.accounts[].currentBalance, cibil.response.consumerSummaryresp.accountSummary, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount
+  RAW EVIDENCE       bureau accounts: 14
+  RAW EVIDENCE       monthly status markers: 116
+  RAW EVIDENCE       account credit limits: Credit Card: limit not reported, cash limit 0, balance 10505, Auto Loan Personal: limit not reported, cash limit not reported, balance 1430418, Personal Loan: limit not reported, cash limit not reported, balance 301209, Credit Card: limit not reported, cash limit 0, balance 0, Credit Card: limit not reported, cash limit 7000, balance 11673, Credit Card: limit not reported, cash limit 36500, balance 158591, Credit Card: limit not reported, cash limit not reported, balance 17855, Credit Card: limit not reported, cash limit not reported, balance 14022, Personal Loan: limit not reported, cash limit not reported, balance 0, Secured Credit Card: limit not reported, cash limit 8100, balance 0, Two wheeler Loan: limit not reported, cash limit not reported, balance 0, Personal Loan: limit not reported, cash limit not reported, balance 0, Personal Loan: limit not reported, cash limit not reported, balance 0, Personal Loan: limit not reported, cash limit not reported, balance 0
+  NORMALIZED         portfolio credit limit: unavailable — unavailable
+  NORMALIZED         portfolio balance: 1944273 — vendor portfolio total
+  NORMALIZED         portfolio overdue: 0 — sum of account values
+  NORMALIZED         portfolio cash limit (not a denominator): 51600 — sum of account values
+  NORMALIZED         aggregation note: No account reported a credit limit, and the source states no portfolio total. Source summary discarded as sentinels: overdueBalance=-2., Outstanding balance stated by the source as a portfolio total (cibil.response.consumerSummaryresp.accountSummary)., Overdue amount summed across 12 of 14 account rows; 2 reported none and were not counted as zero. Source summary discarded as sentinels: overdueBalance=-2.
+  NORMALIZED         overdue accounts: 0
+  NORMALIZED         adverse events: none
+  DERIVED FACT       utilisation formula: utilisation unavailable: no portfolio credit limit was reported (a cash limit, sanctioned amount or high-credit figure is not a credit limit)
+  DERIVED FACT       utilisation % (exact, measured): unavailable
+  DERIVED FACT       utilisation % (scored, whole percent): unavailable
+  DERIVED FACT       utilisation scoring rule: round half up to a whole percent, clamped to the configured band span 0–1000
+  DERIVED FACT       recent material DPD: unavailable
+  DERIVED FACT       obligations ratio %: 91.61
+  RULE               credit.stressScore = 2 → stress_low
+  FORMULA            stress = overdue points + DPD points + utilisation points + obligation-burden points + adverse-event points
+  THRESHOLD          stress_low: 1 to 2 → Low (score 85)
+  RESULT             Low
+  CONFIDENCE         High
+  FINDING            Nothing overdue; high combined obligations; no adverse event.
+
+4.8 Payment Discipline
+  SOURCE FIELDS      cibil.maxDpd, cibil.cleanPaymentRecords, cibil.recentDelinquency, cibil.accounts[].monthlyPayStatus, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount, cibil.accounts[].suitFiledStatus
+  RAW EVIDENCE       bureau accounts: 14
+  RAW EVIDENCE       monthly status markers: 116
+  RAW EVIDENCE       bureau adverse markers: none
+  RAW EVIDENCE       write-off / settlement amounts: none
+  NORMALIZED         clean months: 110
+  NORMALIZED         no-data months: 6
+  NORMALIZED         adverse months: 0
+  NORMALIZED         adverse classifications: none
+  DERIVED FACT       worst DPD: 0
+  DERIVED FACT       delays: none
+  DERIVED FACT       anchor account: Two wheeler Loan since 2024-12-16 (19/19 clean)
+  DERIVED FACT       leading classification: unavailable
+  RULE               credit.maxDpd = 0 → pay_excellent
+  FORMULA            band = adverse classification present ? configured adverse band : threshold containing max DPD
+  THRESHOLD          pay_excellent: 0 to 0 → Excellent (score 100)
+  RESULT             Excellent
+  CONFIDENCE         High
+  FINDING            Two wheeler loan paid every month since December 2024; no reported delay.
+  WEIGHTED INTO      Payment Discipline (10%)
+
+4.9 City Stability
+  SOURCE FIELDS      prefill.addresses[].city, prefill.addresses[].pincode, cibil.addresses[].city
+  RAW EVIDENCE       address records: 6
+  RAW EVIDENCE       raw rows by source: Prefill API×1, Prefill API+CIBIL Report×3, Prefill API+CIBIL Report×2, Prefill API×1, CIBIL Report×1, Prefill API×1
+  NORMALIZED         distinct locations: 6
+  NORMALIZED         residences: 5
+  NORMALIZED         offices: 1
+  DERIVED FACT       cities: Thane, Mumbai
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.cityStabilityScore = 3 → city_strong
+  FORMULA            regions = distinct metropolitan regions across all address records
+  THRESHOLD          city_strong: 3 to 3 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            All recorded residences fall within the configured Mumbai metropolitan region.
+
+4.10 Permanent Address Footprint
+  SOURCE FIELDS      prefill.addresses[type=permanent], cibil.addresses[]
+  RAW EVIDENCE       address records: 6
+  RAW EVIDENCE       raw rows by source: Prefill API×1, Prefill API+CIBIL Report×3, Prefill API+CIBIL Report×2, Prefill API×1, CIBIL Report×1, Prefill API×1
+  NORMALIZED         distinct locations: 6
+  NORMALIZED         residences: 5
+  NORMALIZED         offices: 1
+  DERIVED FACT       cities: Thane, Mumbai
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.permanentFootprintScore = 3 → perm_strong
+  FORMULA            score = present + complete + repeated across sources + recent
+  THRESHOLD          perm_strong: 3 to ∞ → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            Permanent address on record, fully recorded, repeated across sources.
+
+4.11 Professional Footprint
+  SOURCE FIELDS      prefill.occupation, prefill.employer, prefill.officeEmail, prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: corporate email: Rentenpe
+  RAW EVIDENCE       email records: tanishshetty@rentenpe.com [corporate], tanishshetty1@gmail.com
+  RAW EVIDENCE       office address lines: 314 PRABHADEVI INDUSTRIAL ESTATE OPP S IDHIVINAYAK TEMPLE PRABHADEVI MUMBA I MUMBAI
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Rentenpe [key RENTENPE]
+  NORMALIZED         supporting evidence per identity: Rentenpe: corporate email
+  NORMALIZED         corporate domains: rentenpe.com
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 1
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.footprintScore = 4 → prof_established
+  FORMULA            score = occupation + employer + corporate email + office address
+  THRESHOLD          prof_established: 3 to ∞ → Established (score 100)
+  RESULT             Established
+  CONFIDENCE         High
+  FINDING            Occupation stated, employer named, corporate email domain, office address.
+
+4.12 Corporate Email Footprint
+  SOURCE FIELDS      prefill.officeEmail, prefill.emails[]
+  RAW EVIDENCE       employer names, as each source gave them: corporate email: Rentenpe
+  RAW EVIDENCE       email records: tanishshetty@rentenpe.com [corporate], tanishshetty1@gmail.com
+  RAW EVIDENCE       office address lines: 314 PRABHADEVI INDUSTRIAL ESTATE OPP S IDHIVINAYAK TEMPLE PRABHADEVI MUMBA I MUMBAI
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Rentenpe [key RENTENPE]
+  NORMALIZED         supporting evidence per identity: Rentenpe: corporate email
+  NORMALIZED         corporate domains: rentenpe.com
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 1
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               contact.corporateEmailDomains.length = 1 → corp_single
+  FORMULA            count = distinct non-consumer email domains
+  THRESHOLD          corp_single: 1 to 1 → Single association (score 90)
+  RESULT             Single association
+  CONFIDENCE         High
+  FINDING            rentenpe.com on record.
+
+4.13 Office Footprint
+  SOURCE FIELDS      prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: corporate email: Rentenpe
+  RAW EVIDENCE       email records: tanishshetty@rentenpe.com [corporate], tanishshetty1@gmail.com
+  RAW EVIDENCE       office address lines: 314 PRABHADEVI INDUSTRIAL ESTATE OPP S IDHIVINAYAK TEMPLE PRABHADEVI MUMBA I MUMBAI
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Rentenpe [key RENTENPE]
+  NORMALIZED         supporting evidence per identity: Rentenpe: corporate email
+  NORMALIZED         corporate domains: rentenpe.com
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 1
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.officeAddressCount = 1 → office_available
+  FORMULA            count = address records of type office
+  THRESHOLD          office_available: 1 to 3 → Available (score 92)
+  RESULT             Available
+  CONFIDENCE         High
+  FINDING            Prabhadevi (September 2026).
+
+4.14 Employment Continuity
+  SOURCE FIELDS      prefill.employer, prefill.tenureMonths, prefill.emails[].domain
+  RAW EVIDENCE       employer names, as each source gave them: corporate email: Rentenpe
+  RAW EVIDENCE       email records: tanishshetty@rentenpe.com [corporate], tanishshetty1@gmail.com
+  RAW EVIDENCE       office address lines: 314 PRABHADEVI INDUSTRIAL ESTATE OPP S IDHIVINAYAK TEMPLE PRABHADEVI MUMBA I MUMBAI
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Rentenpe [key RENTENPE]
+  NORMALIZED         supporting evidence per identity: Rentenpe: corporate email
+  NORMALIZED         corporate domains: rentenpe.com
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 1
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.continuityScore = 2 → cont_moderate
+  FORMULA            score = single employer + tenure recorded + corporate domain agreement
+  THRESHOLD          cont_moderate: 2 to 2 → Moderate (score 78)
+  RESULT             Moderate
+  CONFIDENCE         Medium
+  FINDING            Single employer on record; tenure not stated.
+
+4.15 Identity Depth
+  SOURCE FIELDS      prefill.pan, prefill.ckyc, prefill.documents[]
+  RAW EVIDENCE       identity documents: PAN, CKYC
+  NORMALIZED         PAN: true
+  NORMALIZED         CKYC: true
+  NORMALIZED         photo ID: false
+  DERIVED FACT       document count: 2
+  DERIVED FACT       matched fields: name, date of birth, mobile, PAN, CKYC
+  DERIVED FACT       mismatched fields: none
+  RULE               identity.documentCount = 2 → id_moderate
+  FORMULA            count = distinct identity documents
+  THRESHOLD          id_moderate: 2 to 2 → Moderate (score 70)
+  RESULT             Moderate
+  CONFIDENCE         High
+  FINDING            PAN, CKYC on record; no photo ID data.
+
+4.16 Identity Consistency
+  SOURCE FIELDS      prefill.name, prefill.dob, prefill.pan, prefill.ckyc, cibil.consumerName
+  RAW EVIDENCE       identity documents: PAN, CKYC
+  NORMALIZED         PAN: true
+  NORMALIZED         CKYC: true
+  NORMALIZED         photo ID: false
+  DERIVED FACT       document count: 2
+  DERIVED FACT       matched fields: name, date of birth, mobile, PAN, CKYC
+  DERIVED FACT       mismatched fields: none
+  RULE               identity.consistencyScore = 5 → cons_very_strong
+  FORMULA            score = matched shared fields, or negative when any field disagrees
+  THRESHOLD          cons_very_strong: 4 to ∞ → Very Strong (score 100)
+  RESULT             Very Strong
+  CONFIDENCE         High
+  FINDING            Name, date of birth, mobile, PAN, CKYC agree across the supplied sources.
+
+4.17 Digital Footprint
+  SOURCE FIELDS      prefill.emails[], prefill.mobile
+  RAW EVIDENCE       phone records: 6
+  RAW EVIDENCE       email records: 2
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.digitalScore = 3 → dig_strong
+  FORMULA            score = distinct emails + corporate domain present + consistent mobile
+  THRESHOLD          dig_strong: 3 to 3 → Strong (score 88)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            2 emails, 1 mobile number on record.
+
+4.18 Contact Stability
+  SOURCE FIELDS      prefill.mobile, prefill.phones[], cibil.mobile
+  RAW EVIDENCE       phone records: 6
+  RAW EVIDENCE       email records: 2
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.genuinePhoneCount = 1 → contact_strong
+  FORMULA            count = distinct genuine numbers after placeholder removal
+  THRESHOLD          contact_strong: 1 to 1 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            1 genuine number across 6 records.
+
+4.19 Traceability
+  SOURCE FIELDS      prefill.mobile, prefill.email, prefill.addresses[], prefill.familyRelation
+  RAW EVIDENCE       phone records: 6
+  RAW EVIDENCE       email records: 2
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.traceabilityScore = 3 → trace_good
+  FORMULA            score = phone + email + permanent address + family reference
+  THRESHOLD          trace_good: 3 to ∞ → Good (score 100)
+  RESULT             Good
+  CONFIDENCE         Medium
+  FINDING            Phone, email, family home on record; no second number.
+
+4.20 Profile Consistency
+  SOURCE FIELDS      meta.conflicts, identity.mismatchedFields, address.consistent
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence
+  RULE               meta.conflictCount = 0 → prof_cons_strong
+  FORMULA            count = detected cross-source conflicts
+  THRESHOLD          prof_cons_strong: 0 to 0 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            No material mismatch between sources.
+
+4.21 Data Confidence
+  SOURCE FIELDS      meta.sourceCount, meta.completenessPct, meta.reportAgeDays, meta.conflicts
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence
+  RULE               meta.dataConfidenceScore = 96 → data_high
+  FORMULA            score = source coverage + completeness + recency − conflicts − critical gaps
+  THRESHOLD          data_high: 75 to ∞ → High (score 100)
+  RESULT             High
+  CONFIDENCE         High
+  FINDING            2 sources, recent, consistent; all critical evidence present. 4 optional fields not returned.
+  WEIGHTED INTO      Data Confidence (10%)
+
+4.22 Background Confidence
+  SOURCE FIELDS      bgv.status, bgv.courtRecords, bgv.addressVerification
+  RAW EVIDENCE       BGV provider: unavailable
+  NORMALIZED         check run: false
+  DERIVED FACT       status: not run
+  RULE               missing-data rule (background verification)
+  THRESHOLD          missing-data rule
+  RESULT             Pending
+  CONFIDENCE         Not assessed
+  FINDING            Court and address checks not run.
+  MISSING            background verification
+
+4.23 Vehicle Profile
+  SOURCE FIELDS      cibil.accounts[].accountType
+  RAW EVIDENCE       bureau accounts: 14
+  RAW EVIDENCE       monthly status markers: 116
+  NORMALIZED         vehicle-classified accounts: 2
+  DERIVED FACT       count: 2
+  RULE               credit.autoLoanCount = 2 → veh_multiple
+  FORMULA            count = accounts classified as vehicle finance
+  THRESHOLD          veh_multiple: 2 to ∞ → Multiple vehicle records (score 95)
+  RESULT             Multiple vehicle records
+  CONFIDENCE         High
+  FINDING            2 vehicle-linked accounts reported.
+
+4.24 Household Profile
+  SOURCE FIELDS      prefill.familyRelation, prefill.addresses[type=permanent]
+  RAW EVIDENCE       address records: 6
+  NORMALIZED         relationship on record: unavailable
+  DERIVED FACT       permanent address: true
+  DERIVED FACT       alternate number: false
+  RULE               household.householdScore = 1 → house_available
+  FORMULA            score = explicit family relation + family address on record
+  THRESHOLD          house_available: 1 to 1 → Household information available (score 78)
+  RESULT             Household information available
+  CONFIDENCE         Medium
+  FINDING            Family address on record.
+
+4.25 Occupancy Strength
+  SOURCE FIELDS      prefill.addresses[], address.recordCount, address.crossSourceMatch
+  RAW EVIDENCE       address records: 6
+  RAW EVIDENCE       raw rows by source: Prefill API×1, Prefill API+CIBIL Report×3, Prefill API+CIBIL Report×2, Prefill API×1, CIBIL Report×1, Prefill API×1
+  NORMALIZED         distinct locations: 6
+  NORMALIZED         residences: 5
+  NORMALIZED         offices: 1
+  DERIVED FACT       cities: Thane, Mumbai
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.occupancyScore = 1 → occ_confirm
+  FORMULA            score = settled current address + few distinct residences + cross-source repetition
+  THRESHOLD          occ_confirm: 1 to 1 → Requires Confirmation (score 55)
+  RESULT             Requires Confirmation
+  CONFIDENCE         Medium
+  FINDING            5 residences on record; current one not settled.
+
+4.26 Reference Readiness
+  SOURCE FIELDS      prefill.familyRelation, prefill.alternateMobile, prefill.previousLandlord
+  RAW EVIDENCE       address records: 6
+  NORMALIZED         relationship on record: unavailable
+  DERIVED FACT       permanent address: true
+  DERIVED FACT       alternate number: false
+  RULE               household.referenceScore = 1 → ref_partial
+  FORMULA            score = family reference + alternate number + previous landlord
+  THRESHOLD          ref_partial: 1 to 2 → Partial (score 70)
+  RESULT             Partial
+  CONFIDENCE         Medium
+  FINDING            Family reference available; no alternate number or previous landlord.
+
+4.27 Exception Flags
+  SOURCE FIELDS      meta.missingFields, meta.conflicts, identity.mismatchedFields
+  RAW EVIDENCE       signals evaluated: 28
+  NORMALIZED         confirmable gaps: Current residence not settled
+  DERIVED FACT       count: 1
+  RULE               exceptions.length = 1 → exc_few
+  FORMULA            count = confirmable gaps detected in the records
+  THRESHOLD          exc_few: 1 to 2 → {count} (score 75)
+  RESULT             1
+  CONFIDENCE         Confirmable
+  FINDING            Current residence not settled.
+
+4.28 ORA Profile Confidence
+  SOURCE FIELDS      identity.consistencyScore, meta.dataConfidenceScore, residence.occupancyScore, credit.fileAgeMonths, income.basisKnown, exceptions
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence
+  RULE               meta.profileConfidenceScore = 92 → ora_high
+  FORMULA            score = weighted blend of identity, data, residence, financial and income confidence, less unresolved exceptions
+  THRESHOLD          ora_high: 75 to ∞ → High (score 100)
+  RESULT             High
+  CONFIDENCE         Overall
+  FINDING            Strong, consistent profile; 1 confirmable gap.

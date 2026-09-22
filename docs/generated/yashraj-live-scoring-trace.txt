@@ -1,0 +1,66 @@
+ORA SCORING TRACE — INTERNAL ONLY
+
+== CONFIGURATION SNAPSHOT (the rules this assessment was produced from) ==
+  name          ORA Default Scoring Configuration
+  id            ora-default-v1
+  version       v1
+  scoring mode  strict_100
+  generated at  2026-09-21T10:00:00.000Z
+  weight total  100%  (100% — OK)
+    Rent-to-Income Fit                    25%
+    Credit Behaviour                      15%
+    Payment Discipline                    10%
+    Permanent Address Completeness        10%
+    Address Completeness                   5%
+    Address Stability                     10%
+    Financial Depth                       15%
+    Recent Credit Activity                 0%
+    Data Confidence                       10%
+    Overdue Amount                         0%
+
+== TOP-LEVEL ORA SCORING (authoritative) ==
+ORA Score = Σ(parameter score × top-level weight) ÷ Σ(contributing top-level weight)
+
+PARAMETER                           SCORE   WEIGHT  CONTRIBUTION  SOURCE
+Rent-to-Income Fit                 100.00      25%         25.00  signal:rent_affordability
+Credit Behaviour                    78.92      15%         11.84  category:credit_appetite
+Payment Discipline                  85.00      10%          8.50  signal:payment_discipline
+Permanent Address Completeness     100.00      10%         10.00  dataPoint:permanent_address_completeness
+Address Completeness               100.00       5%          5.00  dataPoint:address_completeness
+Address Stability                  100.00      10%         10.00  dataPoint:address_stability_cross_source
+Financial Depth                    100.00      15%         15.00  signal:financial_depth
+Recent Credit Activity              72.00       0%          0.00  dataPoint:recent_credit_activity
+Data Confidence                    100.00      10%         10.00  signal:data_confidence
+Overdue Amount                     100.00       0%          0.00  dataPoint:overdue_amount
+
+Σ(score × weight) = 9533.8
+Σ(contributing weight) = 100   (configured total 100%)
+ORA SCORE = 95.34
+RATING BAND = overall_excellent: 90 to 100 → EXCELLENT
+OVERALL ORA RATING = EXCELLENT
+
+== INTERNAL CATEGORY DIAGNOSTICS (explanatory only) ==
+Diagnostic category score — does not determine the ORA Score.
+Internal Diagnostic Score = Σ(category score × category weight) ÷ Σ(contributing category weight)
+
+CATEGORY                            SCORE   WEIGHT  CONTRIBUTION
+Income Capacity                     58.00      10%          5.80
+Payment Discipline                  81.73      15%         12.26
+Default History                     65.29      15%          9.79
+Employment Stability                73.50      10%          7.35
+KYC Status                          85.93     7.5%          6.44
+Identity Confidence                 94.00     7.5%          7.05
+Address Stability                   84.11       4%          3.36
+Standard of Living                 100.00       0%          0.00
+Credit Appetite                     78.92      15%         11.84
+City Stability                      66.67       3%          2.00
+Permanent Address Footprint         91.43       3%          2.74
+Contact Traceability                84.25       5%          4.21
+ORA Data Confidence                 82.75       5%          4.14
+Legal Footprint                     85.00       0%          0.00
+Vehicle Footprint                   65.00       0%          0.00
+Tenant Readiness / Reference Readiness    71.20       0%          0.00
+
+Σ(score × weight) = 7699.32
+Σ(contributing weight) = 100
+INTERNAL DIAGNOSTIC SCORE = 76.99

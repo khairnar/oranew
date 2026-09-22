@@ -1,0 +1,141 @@
+ORA INTERNAL ASSESSMENT REPORT (ADMIN ONLY)
+Report ID: ORA-YASHRAJ-LIVE_ORA-V1
+Simulation ID: yashraj-live_ora
+Generated: 21/9/2026, 3:30:00 pm
+Configuration: ORA Default Scoring Configuration v1 (ora-default-v1)
+Input hash: b15964c77446597b
+
+ORA score: 95.34
+Overall ORA rating: EXCELLENT
+Pre-exception rating: EXCELLENT
+Internal diagnostic score: 76.99 — diagnostic category score, does not determine the ORA Score.
+Income frequency: unknown
+Frequency source: unknown
+Monthly income: not derivable
+Inference method: not applicable
+Inference confidence: not_assessed
+EMI consistency check: no_emi_data — No monthly EMI was reported, so the consistency check cannot run.
+Rent-to-income ratio: not calculable
+Debt-to-income ratio: not calculable
+Credit score: 779
+
+TOP-LEVEL ORA SCORING (authoritative)
+- Rent-to-Income Fit: score 100, weight 25%, contribution 25
+- Credit Behaviour: score 78.92, weight 15%, contribution 11.84
+- Payment Discipline: score 85, weight 10%, contribution 8.5
+- Permanent Address Completeness: score 100, weight 10%, contribution 10
+- Address Completeness: score 100, weight 5%, contribution 5
+- Address Stability: score 100, weight 10%, contribution 10
+- Financial Depth: score 100, weight 15%, contribution 15
+- Recent Credit Activity: score 72, weight 0%, contribution 0
+- Data Confidence: score 100, weight 10%, contribution 10
+- Overdue Amount: score 100, weight 0%, contribution 0
+ORA score = 95.34 (÷ 100 contributing weight)
+
+INTERNAL CATEGORY DIAGNOSTICS — does not determine the ORA Score
+1. Income Capacity: REQUIRES_VERIFICATION (score 58, weight 10%)
+2. Payment Discipline: VERY_GOOD (score 81.73, weight 15%)
+3. Default History: GOOD (score 65.29, weight 15%)
+4. Employment Stability: GOOD (score 73.5, weight 10%)
+5. KYC Status: VERY_GOOD (score 85.93, weight 7.5%)
+6. Identity Confidence: EXCELLENT (score 94, weight 7.5%)
+7. Address Stability: VERY_GOOD (score 84.11, weight 4%)
+8. Standard of Living: EXCELLENT (score 100, weight 0%)
+9. Credit Appetite: VERY_GOOD (score 78.92, weight 15%)
+10. City Stability: GOOD (score 66.67, weight 3%)
+11. Permanent Address Footprint: EXCELLENT (score 91.43, weight 3%)
+12. Contact Traceability: VERY_GOOD (score 84.25, weight 5%)
+13. ORA Data Confidence: VERY_GOOD (score 82.75, weight 5%)
+14. Legal Footprint: NONE_REPORTED (score 85, weight 0%)
+15. Vehicle Footprint: NOT_ASSESSED (score 65, weight 0%)
+16. Tenant Readiness / Reference Readiness: GOOD (score 71.2, weight 0%)
+17. Exception Flags: NONE_REPORTED (derived)
+18. Overall Rent Score: EXCELLENT (derived)
+19. Rent Affordability: REQUIRES_VERIFICATION (derived)
+
+REASON CODES
+- EXCLUDED_FACTORS: rent_to_income_ratio (missing source data)
+- CONFIDENCE_PENALTY: -6 applied to ORA Data Confidence
+- RENT: income frequency not stated by the source -> REQUIRES_VERIFICATION
+- ORA_SCORE: 95.34 (Σ parameter score × top-level weight ÷ 100)
+- OVERALL_ORA_RATING: EXCELLENT (mapped from the ORA score)
+- INTERNAL_DIAGNOSTIC_SCORE: 76.99 (category analysis — does not determine the ORA score or rating)
+- [Income Capacity] INCOME_AVAILABILITY: income_present -> GOOD (An income figure is reported.)
+- [Income Capacity] INCOME_FREQUENCY_KNOWN: income_freq_unknown -> REQUIRES_VERIFICATION (The source does not state whether the income is monthly, annual or weekly.)
+- [Income Capacity] RENT_TO_INCOME_RATIO: MISSING -> EXCLUDED FROM SCORING (confidence reduced)
+- [Income Capacity] INCOME_VERIFICATION: income_verified_no -> REQUIRES_VERIFICATION (Income is reported but not independently verified.)
+- [Income Capacity] INCOME_SOURCE_CONSISTENCY: MISSING -> REQUIRES_VERIFICATION (use_missing_rating)
+- [Income Capacity] INCOME_CAPACITY: OVERRIDE income_capacity_unknown_frequency -> REQUIRES_VERIFICATION
+- [Payment Discipline] OVERDUE_ACCOUNTS: overdue_none -> EXCELLENT (No overdue account reported.)
+- [Payment Discipline] MAX_DPD: dpd_1_29 -> VERY_GOOD (Minor delays under 30 days reported.)
+- [Payment Discipline] CLEAN_PAYMENT_RECORDS: clean_24plus -> EXCELLENT (24+ months of clean reported payments.)
+- [Payment Discipline] RECENT_DELINQUENCY: recent_delinquency_yes -> FAIR (Recent delinquency reported.)
+- [Payment Discipline] OVERDUE_AMOUNT: overdue_amount_zero -> EXCELLENT (No qualifying overdue amount reported.)
+- [Default History] WRITE_OFF: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] SETTLEMENT: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] RESTRUCTURING: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] SUIT_FILED: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] WILFUL_DEFAULT: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] SERIOUS_DELINQUENCY: serious_delinquency_no -> VERY_GOOD (No serious delinquency reported.)
+- [Employment Stability] EMPLOYMENT_TYPE: employment_salaried -> VERY_GOOD (Reported as salaried.)
+- [Employment Stability] EMPLOYER_AVAILABILITY: employer_present -> VERY_GOOD (Employer name is available.)
+- [Employment Stability] EMPLOYMENT_TENURE: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Employment Stability] EMPLOYMENT_VERIFICATION: employment_verified_no -> PENDING_VERIFICATION (Employment is reported but not verified.)
+- [Employment Stability] OFFICE_EMAIL_EMPLOYMENT: office_email_emp_no -> PENDING_VERIFICATION (No corporate email address on record.)
+- [KYC Status] PAN_AVAILABILITY: pan_available_yes -> EXCELLENT (PAN is available.)
+- [KYC Status] CKYC_AVAILABILITY: ckyc_available_yes -> EXCELLENT (CKYC identifier is available.)
+- [KYC Status] DOCUMENT_PRESENCE: document_presence_2plus -> VERY_GOOD (Two or more identity documents present.)
+- [KYC Status] DOCUMENT_VERIFICATION: document_verified_no -> PENDING_VERIFICATION (Documents are present but not independently verified.)
+- [KYC Status] KYC_EMAIL_AVAILABILITY: kyc_email_yes -> VERY_GOOD (Email address on record.)
+- [Identity Confidence] NAME_MATCH: name_match_yes -> EXCELLENT (Name is consistent across supplied sources.)
+- [Identity Confidence] DOB_MATCH: dob_match_yes -> EXCELLENT (Date of birth is consistent.)
+- [Identity Confidence] MOBILE_MATCH: mobile_match_yes -> EXCELLENT (Mobile number is consistent.)
+- [Identity Confidence] IDENTITY_MISMATCH: identity_mismatch_no -> VERY_GOOD (No material identity mismatch reported.)
+- [Identity Confidence] DUPLICATE_IDENTITY: duplicate_identity_no -> VERY_GOOD (No duplicate identity records reported.)
+- [Address Stability] RESIDENTIAL_ADDRESS_AVAILABILITY: res_address_present -> VERY_GOOD (A residential address is available.)
+- [Address Stability] ADDRESS_COMPLETENESS: addr_complete_90 -> EXCELLENT (Address record is complete.)
+- [Address Stability] ADDRESS_STABILITY_CROSS_SOURCE: addr_repeat_2plus -> EXCELLENT (Two or more addresses repeat across Prefill and CIBIL.)
+- [Address Stability] ADDRESS_CONSISTENCY: addr_consistent_no -> FAIR (Address information differs between sources.)
+- [Address Stability] ADDRESS_RECORD_COUNT: addr_records_3plus -> EXCELLENT (Three or more distinct address records held.)
+- [Address Stability] ADDRESS_VERIFICATION: addr_verified_no -> PENDING_VERIFICATION (Address is reported but not independently verified.)
+- [Standard of Living] STANDARD_OF_LIVING_FINANCE: sol_fin_90_100 -> EXCELLENT (Housing finance, or multiple or high-value vehicle finance.)
+- [Credit Appetite] CIBIL_SCORE: cibil_750_779 -> VERY_GOOD (Score between 750 and 779.)
+- [Credit Appetite] CREDIT_FILE_AGE: file_age_36_59 -> VERY_GOOD (Credit file three to five years old.)
+- [Credit Appetite] CREDIT_UTILISATION: MISSING -> INSUFFICIENT_DATA (use_missing_rating)
+- [Credit Appetite] RECENT_CREDIT_ACTIVITY: enq_6_9 -> GOOD (Elevated recent credit-seeking activity.)
+- [Credit Appetite] CREDIT_ACCOUNT_COUNT: accounts_3plus -> VERY_GOOD (An established set of reported accounts.)
+- [City Stability] CITY_CONSISTENCY: city_consistent_no -> FAIR (City differs across address records.)
+- [City Stability] CITY_RECORD_DEPTH: city_depth_3plus -> EXCELLENT (Multiple records support the city footprint.)
+- [Permanent Address Footprint] PERMANENT_ADDRESS_AVAILABILITY: perm_address_present -> VERY_GOOD (A permanent address is available.)
+- [Permanent Address Footprint] PERMANENT_ADDRESS_COMPLETENESS: perm_complete_90 -> EXCELLENT (Permanent address record is complete.)
+- [Contact Traceability] MOBILE_AVAILABILITY: mobile_available_yes -> EXCELLENT (A mobile number is available.)
+- [Contact Traceability] PERSONAL_EMAIL_AVAILABILITY: personal_email_yes -> VERY_GOOD (A personal email address is available.)
+- [Contact Traceability] OFFICE_EMAIL_CONTACT: office_email_contact_no -> GOOD (No corporate email address available.)
+- [Contact Traceability] CONTACT_CHANNEL_COUNT: channels_2 -> VERY_GOOD (Two contact channels available.)
+- [Contact Traceability] CONTACT_CONSISTENCY: contact_consistent_yes -> VERY_GOOD (Contact details are consistent across sources.)
+- [Contact Traceability] CONTACT_VERIFICATION: contact_verified_no -> PENDING_VERIFICATION (Contact details are not independently verified.)
+- [ORA Data Confidence] SOURCE_COUNT: sources_2 -> VERY_GOOD (Two independent sources supplied.)
+- [ORA Data Confidence] DATA_COMPLETENESS: completeness_75 -> VERY_GOOD (Most important data is available.)
+- [ORA Data Confidence] REPORT_AGE: age_0_90 -> EXCELLENT (Records are under three months old.)
+- [ORA Data Confidence] CRITICAL_MISSING_COUNT: critical_missing_1 -> VERY_GOOD (One critical field is missing.)
+- [ORA Data Confidence] CONFLICT_COUNT: conflicts_0 -> EXCELLENT (No conflict between sources.)
+- [ORA Data Confidence] CIBIL_AVAILABILITY: cibil_available -> VERY_GOOD (Bureau information is available.)
+- [ORA Data Confidence] ORA_DATA_CONFIDENCE: 88.75 - 6 (excluded factors) -> 82.75 -> VERY_GOOD
+- [Legal Footprint] CRIMINAL_INDICATOR: MISSING -> NONE_REPORTED (use_missing_rating)
+- [Legal Footprint] LEGAL_CASE_COUNT: MISSING -> NONE_REPORTED (use_missing_rating)
+- [Legal Footprint] LEGAL_FOOTPRINT: ALL_DATA_POINTS_MISSING -> NONE_REPORTED
+- [Vehicle Footprint] VEHICLE_COUNT: MISSING -> NOT_ASSESSED (use_missing_rating)
+- [Vehicle Footprint] VEHICLE_FOOTPRINT: ALL_DATA_POINTS_MISSING -> NOT_ASSESSED
+- [Tenant Readiness / Reference Readiness] REFERENCE_AVAILABLE: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Tenant Readiness / Reference Readiness] TENANT_READINESS_INDEX: readiness_60_79 -> VERY_GOOD (Documentation and contactability are good.)
+- [Exception Flags] EXCEPTION_FLAGS: none reported
+- [Overall Rent Score] OVERALL_RENT_SCORE mirrors the overall tenant rating (EXCELLENT).
+- [Rent Affordability] RENT: income frequency not stated by the source -> REQUIRES_VERIFICATION
+
+RISK FLAGS
+- [low] Missing income frequency: The source does not state the income reporting basis, so monthly income cannot be derived.
+
+MISSING FIELDS: contact.officeEmail, income.frequency
+
+AUDIT TRAIL
+- 2026-09-21T10:00:00.000Z ORA Simulator: ASSESSMENT_GENERATED — Simulation yashraj-live_ora scored with "ORA Default Scoring Configuration" v1 (input hash b15964c77446597b).

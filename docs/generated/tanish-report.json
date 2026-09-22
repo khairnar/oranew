@@ -1,0 +1,446 @@
+{
+  "meta": {
+    "reference": "TR-2109-9238",
+    "date": "21 September 2026",
+    "tenant": "TANISH SADANAND SADANAND SHETTY, male, born 3 December 2002 (23 years)",
+    "preparedFor": "Aarav Mehta, landlord",
+    "purpose": "Tenant screening, proposed rent ₹40,000 a month, Thane",
+    "validity": "30 days from the date of report",
+    "issuedTo": "Aarav Mehta only. Not to be forwarded.",
+    "permittedUse": "Screening for the stated tenancy. No other purpose.",
+    "dataHandling": "Retrieved from regulated data sources for tenant screening; delete when the tenancy decision is made or after 30 days.",
+    "confidentialStrip": "Prepared solely for Aarav Mehta for the tenancy at ₹40,000 a month, Thane. Not to be used for any other purpose or shared with any other party.",
+    "confidentialNotice": "This report contains the tenant's personal and financial data. It is issued to Aarav Mehta solely to decide on the stated tenancy and must not be used for any other purpose, copied, or shared with any other person or organisation."
+  },
+  "summary": {
+    "overallAssessment": "RENT FIT: ADDITIONAL FINANCIAL EVIDENCE REQUIRED",
+    "overallStatus": "a",
+    "proposedRent": "₹40,000",
+    "proposedRentSub": "For ₹40,000 a month",
+    "confidence": "High",
+    "confidenceStatus": "g",
+    "confidenceReason": "Income basis unavailable. High once salary slips are received.",
+    "redFlag": null,
+    "dimensions": [
+      {
+        "dimension": "Identity confidence",
+        "rating": "Very Strong",
+        "status": "g",
+        "basis": "Name, date of birth, mobile, PAN, CKYC agree across the supplied sources."
+      },
+      {
+        "dimension": "Residence stability",
+        "rating": "Requires Confirmation",
+        "status": "a",
+        "basis": "5 residences on record; current one not settled."
+      },
+      {
+        "dimension": "Employment evidence",
+        "rating": "Salaried, employer to confirm",
+        "status": "g",
+        "basis": "Single employer on record; tenure not stated."
+      },
+      {
+        "dimension": "Credit behaviour",
+        "rating": "Excellent",
+        "status": "g",
+        "basis": "Credit score: 700–759 — Good. Two wheeler loan paid every month since December 2024; no reported delay."
+      },
+      {
+        "dimension": "Financial depth",
+        "rating": "Strong",
+        "status": "g",
+        "basis": "Strong financial depth based on the available credit profile."
+      },
+      {
+        "dimension": "Rent capacity",
+        "rating": "Additional Financial Evidence Required",
+        "status": "a",
+        "basis": "Additional financial evidence is required to support the proposed rent at the assessed rent-to-income level; rent capacity up to ₹54,200."
+      }
+    ]
+  },
+  "rentCapacity": {
+    "capacityPercentage": 70,
+    "roundedCapacity": 54200,
+    "roundingTo": 100,
+    "display": "₹54,200",
+    "statement": "Can support rent up to ₹54,200/month. Above ₹1,00,000, income verification required."
+  },
+  "verification": [
+    {
+      "item": "PAN",
+      "status": "Matched",
+      "statusColour": "g",
+      "detail": "NY******11L, returned by the supplied sources"
+    },
+    {
+      "item": "Aadhaar",
+      "status": "Not available",
+      "statusColour": "n",
+      "detail": "No Aadhaar data returned"
+    },
+    {
+      "item": "Passport",
+      "status": "Not available",
+      "statusColour": "n",
+      "detail": "No passport data returned"
+    },
+    {
+      "item": "Mobile",
+      "status": "Matched",
+      "statusColour": "g",
+      "detail": "Same number across all sources; 6 records on file"
+    },
+    {
+      "item": "CKYC identifier",
+      "status": "Matched",
+      "statusColour": "g",
+      "detail": "CKYC identifier returned by the supplied sources"
+    },
+    {
+      "item": "Address",
+      "status": "Found",
+      "statusColour": "a",
+      "detail": "Thane and Mumbai addresses across the supplied sources; physical verification pending"
+    },
+    {
+      "item": "Background check (BGV)",
+      "status": "Pending",
+      "statusColour": "n",
+      "detail": "Court records and address verification not run"
+    }
+  ],
+  "verificationNote": "Found: returned by a source. Matched: identical across all sources. Verified: checked with the issuing authority.",
+  "tenantProfile": [
+    {
+      "label": "Full name",
+      "value": "TANISH SADANAND SADANAND SHETTY"
+    },
+    {
+      "label": "Date of birth",
+      "value": "3 December 2002"
+    },
+    {
+      "label": "Gender",
+      "value": "Male"
+    },
+    {
+      "label": "Marital status",
+      "value": "Not available"
+    },
+    {
+      "label": "Mobile",
+      "value": "******4851, same number across 6 records"
+    },
+    {
+      "label": "Alternate number",
+      "value": "Not available"
+    },
+    {
+      "label": "Email",
+      "value": "TANISHSHETTY@RENTENPE.COM"
+    },
+    {
+      "label": "PAN",
+      "value": "NY******11L, returned by the supplied sources"
+    },
+    {
+      "label": "CKYC identifier",
+      "value": "XXXXXXXXXX5303, returned by the supplied sources"
+    },
+    {
+      "label": "Other identity documents",
+      "value": "Not available"
+    },
+    {
+      "label": "Current address",
+      "value": "B001/ARIHANT DARSHAN BEHIND GREEN PARK NEAR LITTLE FLOWER CHAWK JANGID COMPLEX MIRA RD PALGHAR, Thane, 401107"
+    },
+    {
+      "label": "Permanent address",
+      "value": "B 00Q ARIHANT DARSHAN GOKUL VILLAGE M IRA ROAD EAST GOKUL VILLAGE MIRA ROAD EAST MUMBAI, Thane, 401107"
+    },
+    {
+      "label": "Other address",
+      "value": "B001 ARIHANT DARSHAN BUILDING NO C59GO KUL VILLAGE SHANTI PARK BEHIND GREEN PARK BUILDING GOKUL VILLAGE SHANTI PAR K THANE THANE, Thane, 401107"
+    },
+    {
+      "label": "Office address",
+      "value": "314 PRABHADEVI INDUSTRIAL ESTATE OPP S IDHIVINAYAK TEMPLE PRABHADEVI MUMBA I MUMBAI, Mumbai, 400025"
+    },
+    {
+      "label": "Employment",
+      "value": "Salaried. Rentenpe"
+    },
+    {
+      "label": "Reported income",
+      "value": "Estimated monthly income range: ₹70,000–₹80,000/month, subject to income verification."
+    }
+  ],
+  "detailedSignals": [
+    {
+      "number": "4.1",
+      "id": "rent_affordability",
+      "name": "Rent Affordability",
+      "result": "Additional Financial Evidence Required",
+      "confidence": "Medium",
+      "finding": "Additional financial evidence is required to support the proposed rent at the assessed rent-to-income level.",
+      "status": "a"
+    },
+    {
+      "number": "4.2",
+      "id": "rent_capacity_band",
+      "name": "Rent Capacity Band",
+      "result": "Up to ₹54,200",
+      "confidence": "Medium",
+      "finding": "Can support rent up to ₹54,200/month. Above ₹1,00,000, income verification required.",
+      "status": "a"
+    },
+    {
+      "number": "4.3",
+      "id": "income_confidence",
+      "name": "Income Confidence",
+      "result": "Low",
+      "confidence": "Basis unavailable",
+      "finding": "Income is reported, but its basis is unavailable; supporting income documentation would increase confidence.",
+      "status": "a"
+    },
+    {
+      "number": "4.4",
+      "id": "income_group",
+      "name": "Income Group",
+      "result": "C, conditional",
+      "confidence": "Medium",
+      "finding": "Income group is based on a monthly income interpretation inferred from available evidence and should be confirmed with supporting documentation.",
+      "status": "g"
+    },
+    {
+      "number": "4.5",
+      "id": "financial_depth",
+      "name": "Financial Depth",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "Strong financial depth based on the available credit profile.",
+      "status": "g"
+    },
+    {
+      "number": "4.6",
+      "id": "financial_maturity",
+      "name": "Financial Maturity",
+      "result": "Established",
+      "confidence": "High",
+      "finding": "Credit history of 24 months; 14 accounts.",
+      "status": "g"
+    },
+    {
+      "number": "4.7",
+      "id": "financial_stress_signal",
+      "name": "Financial Stress Signal",
+      "result": "Low",
+      "confidence": "High",
+      "finding": "Nothing overdue; high combined obligations; no adverse event.",
+      "status": "g"
+    },
+    {
+      "number": "4.8",
+      "id": "payment_discipline",
+      "name": "Payment Discipline",
+      "result": "Excellent",
+      "confidence": "High",
+      "finding": "Two wheeler loan paid every month since December 2024; no reported delay.",
+      "status": "g"
+    },
+    {
+      "number": "4.9",
+      "id": "city_stability",
+      "name": "City Stability",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "All recorded residences fall within the configured Mumbai metropolitan region.",
+      "status": "g"
+    },
+    {
+      "number": "4.10",
+      "id": "permanent_address_footprint",
+      "name": "Permanent Address Footprint",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "Permanent address on record, fully recorded, repeated across sources.",
+      "status": "g"
+    },
+    {
+      "number": "4.11",
+      "id": "professional_footprint",
+      "name": "Professional Footprint",
+      "result": "Established",
+      "confidence": "High",
+      "finding": "Occupation stated, employer named, corporate email domain, office address.",
+      "status": "g"
+    },
+    {
+      "number": "4.12",
+      "id": "corporate_email_footprint",
+      "name": "Corporate Email Footprint",
+      "result": "Single association",
+      "confidence": "High",
+      "finding": "rentenpe.com on record.",
+      "status": "g"
+    },
+    {
+      "number": "4.13",
+      "id": "office_footprint",
+      "name": "Office Footprint",
+      "result": "Available",
+      "confidence": "High",
+      "finding": "Prabhadevi (September 2026).",
+      "status": "g"
+    },
+    {
+      "number": "4.14",
+      "id": "employment_continuity",
+      "name": "Employment Continuity",
+      "result": "Moderate",
+      "confidence": "Medium",
+      "finding": "Single employer on record; tenure not stated.",
+      "status": "g"
+    },
+    {
+      "number": "4.15",
+      "id": "identity_depth",
+      "name": "Identity Depth",
+      "result": "Moderate",
+      "confidence": "High",
+      "finding": "PAN, CKYC on record; no photo ID data.",
+      "status": "a"
+    },
+    {
+      "number": "4.16",
+      "id": "identity_consistency",
+      "name": "Identity Consistency",
+      "result": "Very Strong",
+      "confidence": "High",
+      "finding": "Name, date of birth, mobile, PAN, CKYC agree across the supplied sources.",
+      "status": "g"
+    },
+    {
+      "number": "4.17",
+      "id": "digital_footprint",
+      "name": "Digital Footprint",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "2 emails, 1 mobile number on record.",
+      "status": "g"
+    },
+    {
+      "number": "4.18",
+      "id": "contact_stability",
+      "name": "Contact Stability",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "1 genuine number across 6 records.",
+      "status": "g"
+    },
+    {
+      "number": "4.19",
+      "id": "traceability",
+      "name": "Traceability",
+      "result": "Good",
+      "confidence": "Medium",
+      "finding": "Phone, email, family home on record; no second number.",
+      "status": "g"
+    },
+    {
+      "number": "4.20",
+      "id": "profile_consistency",
+      "name": "Profile Consistency",
+      "result": "Strong",
+      "confidence": "High",
+      "finding": "No material mismatch between sources.",
+      "status": "g"
+    },
+    {
+      "number": "4.21",
+      "id": "data_confidence",
+      "name": "Data Confidence",
+      "result": "High",
+      "confidence": "High",
+      "finding": "2 sources, recent, consistent; all critical evidence present. 4 optional fields not returned.",
+      "status": "g"
+    },
+    {
+      "number": "4.22",
+      "id": "background_confidence",
+      "name": "Background Confidence",
+      "result": "Pending",
+      "confidence": "Not assessed",
+      "finding": "Court and address checks not run.",
+      "status": "n"
+    },
+    {
+      "number": "4.23",
+      "id": "vehicle_profile",
+      "name": "Vehicle Profile",
+      "result": "Multiple vehicle records",
+      "confidence": "High",
+      "finding": "2 vehicle-linked accounts reported.",
+      "status": "g"
+    },
+    {
+      "number": "4.24",
+      "id": "household_profile",
+      "name": "Household Profile",
+      "result": "Household information available",
+      "confidence": "Medium",
+      "finding": "Family address on record.",
+      "status": "g"
+    },
+    {
+      "number": "4.25",
+      "id": "occupancy_strength",
+      "name": "Occupancy Strength",
+      "result": "Requires Confirmation",
+      "confidence": "Medium",
+      "finding": "5 residences on record; current one not settled.",
+      "status": "a"
+    },
+    {
+      "number": "4.26",
+      "id": "reference_readiness",
+      "name": "Reference Readiness",
+      "result": "Partial",
+      "confidence": "Medium",
+      "finding": "Family reference available; no alternate number or previous landlord.",
+      "status": "a"
+    },
+    {
+      "number": "4.27",
+      "id": "exception_flags",
+      "name": "Exception Flags",
+      "result": "1",
+      "confidence": "Confirmable",
+      "finding": "Current residence not settled.",
+      "status": "a"
+    },
+    {
+      "number": "4.28",
+      "id": "ora_profile_confidence",
+      "name": "ORA Profile Confidence",
+      "result": "High",
+      "confidence": "Overall",
+      "finding": "Strong, consistent profile; 1 confirmable gap.",
+      "status": "g"
+    }
+  ],
+  "methodology": [
+    "ORA applies a structured, multi-factor assessment methodology to evaluate a tenant's rental profile across defined parameters, including identity, residence, occupation, financial capacity, credit behaviour, repayment conduct and rent suitability.",
+    "Information obtained from available and permissible sources is evaluated and, where applicable, cross-validated across relevant data points to assess its consistency, reliability and relevance within the context of the proposed tenancy.",
+    "The assessment represents a consolidated evaluation of the information available at the time of review. No individual parameter, data point, score or indicator is considered determinative in isolation; the assessment outcome is derived from the collective consideration of relevant factors under the ORA assessment methodology."
+  ],
+  "disclaimer": "Prepared by ORA (RentenPe) from regulated data sources retrieved for tenant screening. Figures are as returned by the sources and are not verified unless marked Verified. This report supports the recipient's decision and does not constitute a decision or a guarantee of future conduct. Confidential to the named recipient; valid for 30 days; use for this tenancy only.",
+  "footer": {
+    "left": "ORA by RentenPe",
+    "centre": "Tenant Screening Report TR-2109-9238",
+    "right": "Confidential. Not to be used for any other purpose."
+  }
+}

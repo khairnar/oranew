@@ -1,0 +1,87 @@
+
+==============================================================================
+THE CASE UNDER TEST
+==============================================================================
+  source dates       every row dated 2025-08-17
+  record age         400 days (ageing)
+  adverse event      LSS marker dated 2026-07-21, write-off ₹45000
+  red flag           ACTIVE — Loss classification dated 2026-07-21, inside the configured 12-month lookback.
+  ORA score          34.44  REQUIRES_REVIEW
+  PASS  the record reads as ageing, not fresh
+  PASS  the red flag is active, so both documents have something to keep apart
+
+==============================================================================
+LANDLORD PDF
+==============================================================================
+  docs\generated\test13\redflag-landlord.pdf — 7733 characters of text
+  PASS  prints all 28 signal rows
+  PASS  prints 1. SUMMARY OF FINDINGS
+  PASS  prints 2. VERIFICATION
+  PASS  prints 3. TENANT PROFILE
+  PASS  prints 4. DETAILED SIGNALS
+  PASS  prints 5. METHODOLOGY
+  PASS  prints 6. DISCLAIMER
+  PASS  never prints the derived source date
+  PASS  never prints the record age
+  PASS  never prints reportAgeDays
+  PASS  never prints staleAfterDays
+  PASS  never prints recencyPoints
+  PASS  never prints a qualifying-date id
+  PASS  never prints the source-recency block
+  PASS  never prints the event date
+  PASS  never prints the bureau code
+  PASS  never prints the internal classification
+  PASS  never prints the rule id
+  PASS  never prints the lookback field
+  PASS  never prints the override band id
+  PASS  never prints the exception id
+  PASS  never prints the write-off amount
+  PASS  never prints the exact bureau score
+  PASS  never prints the outstanding balance
+  PASS  never prints the exact income
+  PASS  never prints a threshold id
+  PASS  never prints a formula
+  PASS  never prints a weight
+  PASS  shows the resulting signals instead
+  notice as printed: "RED FLAG  Recent adverse credit history requires review before proceeding."
+  PASS  prints the red-flag label
+  PASS  prints the configured statement
+  PASS  prints the landlord-safe exception in 4.27
+  4.8 as the landlord reads it: Low — "Recent adverse credit history requires review before proceeding."
+  PASS  4.8 reports the configured Low band
+  PASS  with the configured finding
+  PASS  and the adverse band's own wording is nowhere in the document
+
+==============================================================================
+INTERNAL PDF
+==============================================================================
+  docs\generated\test13\redflag-internal.pdf — 14845 characters of text
+  PASS  prints the internal-only stamp
+  PASS  prints the source-recency section
+  PASS  prints the derived source date
+  PASS  prints the record age
+  PASS  prints the per-source breakdown
+  PASS  prints the red-flag section
+  PASS  prints the rule
+  PASS  prints the configured lookback
+  PASS  prints the event date
+  PASS  prints the classification
+  PASS  prints the override band
+  PASS  prints the signal's normal result beneath the override
+  PASS  prints where the band was resolved from
+  PASS  prints the ORA arithmetic
+  PASS  prints the configuration snapshot
+  PASS  prints the diagnostic disclaimer
+  PASS  shows an override as a before and after, not as a replacement
+
+==============================================================================
+A CLEAN FILE'S PDFs
+==============================================================================
+  docs\generated\test13\clean-landlord.pdf and docs\generated\test13\clean-internal.pdf
+  PASS  no red flag on a clean file
+  PASS  the clean landlord PDF still prints all 28 rows
+  PASS  the clean internal PDF says why no flag was raised
+
+==============================================================================
+RESULT — 57 passed, 0 failed
+==============================================================================

@@ -1,0 +1,23 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.8 Payment Discipline
+  SOURCE FIELDS      cibil.maxDpd, cibil.cleanPaymentRecords, cibil.recentDelinquency, cibil.accounts[].monthlyPayStatus, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount, cibil.accounts[].suitFiledStatus
+  RAW EVIDENCE       bureau accounts: 3
+  RAW EVIDENCE       monthly status markers: 108
+  RAW EVIDENCE       bureau adverse markers: none
+  RAW EVIDENCE       write-off / settlement amounts: Personal Loan: written off 45000, settled 0
+  NORMALIZED         clean months: 108
+  NORMALIZED         no-data months: 0
+  NORMALIZED         adverse months: 0
+  NORMALIZED         adverse classifications: written_off (Write-off) from woAmountTotal — Personal Loan — HDFC BANK: write-off amount reported
+  DERIVED FACT       worst DPD: 0
+  DERIVED FACT       delays: none
+  DERIVED FACT       anchor account: Auto Loan since 2023-02-20 (36/36 clean)
+  DERIVED FACT       leading classification: Write-off (configured precedence)
+  RULE               adverse credit classification (Write-off [woAmountTotal]) → pay_adverse
+  FORMULA            band = adverse classification present ? configured adverse band : threshold containing max DPD
+  THRESHOLD          pay_adverse: 90 to ∞ → Adverse History (score 15)
+  RESULT             Adverse History
+  CONFIDENCE         High
+  FINDING            Auto loan paid every month since February 2023; no reported delay; a written-off account is reported on the credit record.
+  WEIGHTED INTO      Payment Discipline (10%)

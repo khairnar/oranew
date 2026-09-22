@@ -1,0 +1,296 @@
+CONFIDENTIAL
+Prepared solely for Aarav Mehta for the tenancy at ₹20,000 a month, Thane. Not to be used for any other purpose or shared with any other party.
+ORA
+TENANT SCREENING REPORT BY RENTENPE
+Report reference  TR-2109-9769
+Date of report  21 September 2026
+CONFIDENTIAL
+Tenant
+TEST TENANT, male, born 1 January 1990 (36 years)
+Prepared for
+Aarav Mehta, landlord
+Purpose
+Tenant screening, proposed rent ₹20,000 a month, Thane
+Validity
+30 days from the date of report
+Issued to
+Aarav Mehta only. Not to be forwarded.
+Permitted use
+Screening for the stated tenancy. No other purpose.
+Data handling
+Retrieved from regulated data sources for tenant screening; delete when the tenancy decision is
+made or after 30 days.
+1. SUMMARY OF FINDINGS
+OVERALL ASSESSMENT
+RENT FIT: ADDITIONAL FINANCIAL
+EVIDENCE REQUIRED
+For ₹20,000 a month
+CONFIDENCE
+Low
+Income basis unavailable. High once salary slips are received.
+RED FLAG  Recent adverse credit history requires review before proceeding.
+DIMENSION
+RATING
+BASIS
+Identity confidence
+Mismatch
+Name differ between sources.
+Residence stability
+Strong
+1 residence on record.
+Employment evidence
+Salaried, employer to con
+Single employer on record; tenure not stated.
+Credit behaviour
+Low
+Credit score: 650699  Good. Recent adverse credit history requires
+review before proceeding.
+Financial depth
+Moderate
+Moderate financial depth based on the available credit profile.
+Rent capacity
+Additional Financial Evid
+Additional financial evidence is required to support the proposed rent at the
+assessed rent-to-income level if the reported income figure is annual; rent
+capacity up to ₹4,900.
+2. VERIFICATION
+ITEM
+STATUS
+DETAIL
+PAN
+Matched
+AB******34F, returned by the supplied sources
+Aadhaar
+Not available
+No Aadhaar data returned
+Passport
+Not available
+No passport data returned
+Mobile
+Not available
+No mobile data returned
+CKYC identifier
+Not available
+No CKYC data returned
+Address
+Found
+Mumbai addresses across the supplied sources; physical verification pending
+Background check (BGV)
+Pending
+Court records and address verification not run
+Found: returned by a source. Matched: identical across all sources. Verified: checked with the issuing authority.
+3. TENANT PROFILE
+Full name
+TEST TENANT
+Date of birth
+1 January 1990
+Gender
+Male
+Marital status
+Not available
+Mobile
+Not available
+Alternate number
+******0001
+Email
+test@example.com
+PAN
+AB******34F, returned by the supplied sources
+CKYC identifier
+Not available
+Other identity documents
+Not available
+Current address
+12 SAMPLE ROAD ANDHERI EAST MUMBAI, Mumbai, 400059
+Permanent address
+Not available
+Other address
+Not available
+Office address
+Not available
+Employment
+Salaried
+Reported income
+Estimated monthly income range: ₹0₹50,000/month, subject to income verification.
+ORA by RentenPe
+Tenant Screening Report TR-2109-9769
+Confidential. Not to be used for any other purpose.
+4. DETAILED SIGNALS
+NO.
+SIGNAL
+RESULT
+CONFIDENCE
+FINDING
+4.1
+Rent Affordability
+Additional Financial Evid
+Medium
+Additional financial evidence is required to support the
+proposed rent at the assessed rent-to-income level if
+the reported income figure is annual.
+4.2
+Rent Capacity Band
+Up to ₹4,900
+Medium
+Can support rent up to ₹4,900/month if the reported
+income figure is annual. The proposed rent of ₹20,000
+is above this figure. Above ₹1,00,000, income
+verification required.
+4.3
+Income Confidence
+Low
+Basis
+unavailable
+Income is reported, but its basis is unavailable;
+supporting income documentation would increase
+confidence.
+4.4
+Income Group
+D, conditional
+Medium
+Income group is conditional because the reported
+income basis is not independently established.
+4.5
+Financial Depth
+Moderate
+High
+Moderate financial depth based on the available credit
+profile.
+4.6
+Financial Maturity
+Long
+High
+Credit history of 93 months; 1 accounts.
+4.7
+Financial Stress Signal
+Elevated
+Medium
+Nothing overdue; high combined obligations; an
+adverse credit classification reported.
+4.8
+Payment Discipline
+Low
+High
+Recent adverse credit history requires review before
+proceeding.
+4.9
+City Stability
+Strong
+High
+All recorded residences fall within the configured
+Mumbai metropolitan region.
+4.10
+Permanent Address Footprint
+Not assessed
+Not assessed
+Permanent address records unavailable.
+4.11
+Professional Footprint
+Limited
+Medium
+Occupation stated.
+4.12
+Corporate Email Footprint
+None found
+Medium
+Personal email addresses only; no corporate domain
+returned.
+4.13
+Office Footprint
+None found
+Medium
+No office address returned by the sources.
+4.14
+Employment Continuity
+Requires Confirmation
+Medium
+Single employer on record; tenure not stated.
+4.15
+Identity Depth
+Limited
+Medium
+PAN on record; no photo ID data.
+4.16
+Identity Consistency
+Mismatch
+High
+Name differ between sources.
+4.17
+Digital Footprint
+Moderate
+Medium
+1 email, 1 mobile number on record.
+4.18
+Contact Stability
+Strong
+High
+1 genuine number across 2 records.
+4.19
+Traceability
+Moderate
+Medium
+Phone, email on record.
+4.20
+Profile Consistency
+Moderate
+High
+1 field differs between sources.
+4.21
+Data Confidence
+Low
+Low
+2 sources; 1 critical field unavailable.
+4.22
+Background Confidence
+Pending
+Not assessed
+Court and address checks not run.
+4.23
+Vehicle Profile
+No vehicle record
+Medium
+No vehicle-linked record in the sources.
+4.24
+Household Profile
+Not assessed
+Not assessed
+Household information unavailable.
+4.25
+Occupancy Strength
+Strong
+High
+1 residence on record.
+4.26
+Reference Readiness
+Partial
+Medium
+Alternate number available; no previous landlord.
+4.27
+Exception Flags
+3
+Confirmable
+Identity mismatch: name; sources disagree on a
+recorded field; recent adverse credit history on record.
+4.28
+ORA Profile Confidence
+Low
+Overall
+Strong, consistent profile; 3 confirmable gaps.
+5. METHODOLOGY
+ORA applies a structured, multi-factor assessment methodology to evaluate a tenant's rental profile across defined parameters, including identity,
+residence, occupation, financial capacity, credit behaviour, repayment conduct and rent suitability.
+Information obtained from available and permissible sources is evaluated and, where applicable, cross-validated across relevant data points to
+assess its consistency, reliability and relevance within the context of the proposed tenancy.
+ORA by RentenPe
+Tenant Screening Report TR-2109-9769
+Confidential. Not to be used for any other purpose.
+The assessment represents a consolidated evaluation of the information available at the time of review. No individual parameter, data point, score
+or indicator is considered determinative in isolation; the assessment outcome is derived from the collective consideration of relevant factors under
+the ORA assessment methodology.
+6. DISCLAIMER
+Prepared by ORA (RentenPe) from regulated data sources retrieved for tenant screening. Figures are as returned by the sources and are not verified unless marked
+Verified. This report supports the recipient's decision and does not constitute a decision or a guarantee of future conduct. Confidential to the named recipient; valid for
+30 days; use for this tenancy only.
+ORA by RentenPe
+Tenant Screening Report TR-2109-9769
+Confidential. Not to be used for any other purpose.

@@ -1,0 +1,61 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.11 Professional Footprint
+  SOURCE FIELDS      prefill.occupation, prefill.employer, prefill.officeEmail, prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: bureau record: NORTHBRIDGE TECHNOLOGIES PRIVATE LIMITED, office address: Northbridge Technologies Pvt Ltd, corporate email: northbridgetech.in
+  RAW EVIDENCE       email records: priya.kulkarni@northbridgetech.in [corporate]
+  RAW EVIDENCE       office address lines: NORTHBRIDGE TECHNOLOGIES PVT LTD , 7TH FLOOR , EMBASSY TECH VILLAGE , OUTER RING ROAD , BENGALURU
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Northbridge Technologies Private Limited [key NORTHBRIDGE-TECHNOLOGIES]
+  NORMALIZED         supporting evidence per identity: Northbridge Technologies Private Limited: bureau record + office address + corporate email
+  NORMALIZED         corporate domains: northbridgetech.in
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 3
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.footprintScore = 4 → prof_established
+  FORMULA            score = occupation + employer + corporate email + office address
+  THRESHOLD          prof_established: 3 to ∞ → Established (score 100)
+  RESULT             Established
+  CONFIDENCE         High
+  FINDING            Occupation stated, employer named, corporate email domain, office address.
+
+4.13 Office Footprint
+  SOURCE FIELDS      prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: bureau record: NORTHBRIDGE TECHNOLOGIES PRIVATE LIMITED, office address: Northbridge Technologies Pvt Ltd, corporate email: northbridgetech.in
+  RAW EVIDENCE       email records: priya.kulkarni@northbridgetech.in [corporate]
+  RAW EVIDENCE       office address lines: NORTHBRIDGE TECHNOLOGIES PVT LTD , 7TH FLOOR , EMBASSY TECH VILLAGE , OUTER RING ROAD , BENGALURU
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Northbridge Technologies Private Limited [key NORTHBRIDGE-TECHNOLOGIES]
+  NORMALIZED         supporting evidence per identity: Northbridge Technologies Private Limited: bureau record + office address + corporate email
+  NORMALIZED         corporate domains: northbridgetech.in
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 3
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.officeAddressCount = 1 → office_available
+  FORMULA            count = address records of type office
+  THRESHOLD          office_available: 1 to 3 → Available (score 92)
+  RESULT             Available
+  CONFIDENCE         High
+  FINDING            Northbridge Technologies Private Limited, Bengaluru (September 2026).
+
+4.14 Employment Continuity
+  SOURCE FIELDS      prefill.employer, prefill.tenureMonths, prefill.emails[].domain
+  RAW EVIDENCE       employer names, as each source gave them: bureau record: NORTHBRIDGE TECHNOLOGIES PRIVATE LIMITED, office address: Northbridge Technologies Pvt Ltd, corporate email: northbridgetech.in
+  RAW EVIDENCE       email records: priya.kulkarni@northbridgetech.in [corporate]
+  RAW EVIDENCE       office address lines: NORTHBRIDGE TECHNOLOGIES PVT LTD , 7TH FLOOR , EMBASSY TECH VILLAGE , OUTER RING ROAD , BENGALURU
+  NORMALIZED         occupation: SALARIED
+  NORMALIZED         employer identities: Northbridge Technologies Private Limited [key NORTHBRIDGE-TECHNOLOGIES]
+  NORMALIZED         supporting evidence per identity: Northbridge Technologies Private Limited: bureau record + office address + corporate email
+  NORMALIZED         corporate domains: northbridgetech.in
+  DERIVED FACT       distinct employers: 1
+  DERIVED FACT       supporting evidence routes: 3
+  DERIVED FACT       office addresses: 1
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.continuityScore = 2 → cont_moderate
+  FORMULA            score = single employer + tenure recorded + corporate domain agreement
+  THRESHOLD          cont_moderate: 2 to 2 → Moderate (score 78)
+  RESULT             Moderate
+  CONFIDENCE         Medium
+  FINDING            Single employer on record; tenure not stated.

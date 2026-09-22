@@ -1,0 +1,351 @@
+
+==============================================================================
+A. SOURCE-DATE POLICY — the documented qualifying dates
+==============================================================================
+  enabled                 true
+  clampFutureDates        true
+  earliestPlausibleDate   2000-01-01
+  qualifying row kinds:
+    ON   documentDate
+    ON   cibil.scoreDate
+    ON   cibil.accountReportedOn
+    ON   cibil.phoneReportedOn
+    ON   cibil.emailReportedOn
+    ON   cibil.addressReportedOn
+    ON   prefill.phoneReportedOn
+    ON   prefill.emailReportedOn
+    ON   prefill.addressReportedOn
+  PASS  the policy ships switched on
+  PASS  no account-opened or monthly-status date qualifies
+
+==============================================================================
+A1. AGE BOUNDARIES — 0, 1, 180, 181, 540, 541 days
+==============================================================================
+  PASS    0 days ago derives an age of 0   (same day, got 0)
+  PASS    1 days ago derives an age of 1   (one day, got 1)
+  PASS  180 days ago derives an age of 180   (the recentWithinDays boundary, got 180)
+  PASS  181 days ago derives an age of 181   (one day past it, got 181)
+  PASS  540 days ago derives an age of 540   (the staleAfterDays boundary, got 540)
+  PASS  541 days ago derives an age of 541   (one day past it, got 541)
+
+==============================================================================
+A2. RECENCY POINTS AND THE 4.21 BAND
+==============================================================================
+  recencyPoints 15   recentWithinDays 180   staleAfterDays 540
+  fresh   age 10  4.21 raw 56  banded Medium
+  ageing  age 300  4.21 raw 49  banded Low
+  stale   age 700  4.21 raw 41  banded Low
+  unknown age null  4.21 raw 41  banded Low
+  PASS  4.21 consumes the full recency points when fresh
+  PASS  4.21 consumes half the recency points while ageing
+  PASS  4.21 consumes none once stale
+  PASS  an unknown age omits the term rather than guessing
+  PASS  the fresh finding says so
+  PASS  the unknown-age finding does not
+
+==============================================================================
+A3. THE STALE EXCEPTION FIRES AT THE CONFIGURED BOUNDARY
+==============================================================================
+  PASS  no stale exception at exactly 540 days
+  PASS  a stale exception at 541 days
+  PASS  the boundary follows the configured staleAfterDays (200)
+
+==============================================================================
+A4. MISSING, MALFORMED AND FUTURE DATES
+==============================================================================
+  PASS  no date at all leaves the age null
+  PASS  a malformed date leaves the age null
+  PASS  an impossible calendar date is discarded
+  PASS  a pre-2000 sentinel date is discarded
+  PASS  a future date never produces a negative age   (got 0)
+  PASS  a future date is clamped to zero by the factory policy
+  PASS  with clamping off a future date is discarded rather than counted
+
+==============================================================================
+A5. SOURCE COMBINATION AND ORDER INDEPENDENCE
+==============================================================================
+  PASS  CIBIL recent + Prefill old → 2026-09-16   (forward 2026-09-16, reversed 2026-09-16)
+  PASS  CIBIL old + Prefill recent → 2026-09-16   (forward 2026-09-16, reversed 2026-09-16)
+  PASS  both recent → 2026-09-18   (forward 2026-09-18, reversed 2026-09-18)
+  PASS  both old → 2025-01-29   (forward 2025-01-29, reversed 2025-01-29)
+  PASS  one source has no date → 2026-09-09   (forward 2026-09-09, reversed 2026-09-09)
+  PASS  neither source has a date → no date   (forward null, reversed null)
+  per-source breakdown for CIBIL recent + Prefill old:
+    CIBIL Report   2026-09-16  5 days  via cibil.accountReportedOn, cibil.scoreDate
+    Prefill API    2025-08-17  400 days  via prefill.addressReportedOn, prefill.phoneReportedOn
+  PASS  both sources are reported separately
+
+==============================================================================
+A6. THE POLICY IS CONFIGURATION, NOT CODE
+==============================================================================
+  PASS  only the switched-on row kind counts   (got 400)
+  PASS  switching the policy off restores an unknown age
+
+==============================================================================
+A7. LANDLORD PRIVACY — no recency mechanics reach the report
+==============================================================================
+  PASS  landlord output never names reportAgeDays
+  PASS  landlord output never names the derived source date
+  PASS  landlord output never names staleAfterDays
+  PASS  landlord output never names recencyPoints
+  PASS  landlord output never names the qualifying-date ids
+  PASS  landlord output never names sourceRecency
+  PASS  the landlord still gets the resulting Data Confidence signal
+  PASS  the legacy report's source-date row stays restricted
+  PASS  and appears only when an administrator switches it on
+
+==============================================================================
+B. RED-FLAG CONFIGURATION AS SHIPPED
+==============================================================================
+  enabled              true
+  lookbackMonths       12  (boundary inclusive)
+  requireDatedEvent    true
+  triggerTypes         loss, doubtful, substandard, written_off, settled, suit_filed, wilful_default
+  override bands       financial_low=20
+  signal overrides     payment_discipline→financial_low
+  parameter overrides  rent_to_income_fit→financial_low, credit_behaviour→financial_low, payment_discipline→financial_low, financial_depth→financial_low, recent_credit_activity→financial_low, overdue_amount→financial_low
+  landlord             "RED FLAG: Recent adverse credit history requires review before proceeding."
+  PASS  the lookback is configuration, not a constant
+  PASS  the six financial parameters are the seeded targets
+  PASS  no landlord date or event type is disclosed by default
+  PASS  Payment Discipline is forced to the shared Low band
+  PASS  no numeric guard can decline a configured override
+  PASS  each band states a whole conclusion, result and finding included
+
+==============================================================================
+B0. THE CONFIGURED BAND ALWAYS WINS — PAYMENT DISCIPLINE
+==============================================================================
+  NORMAL RESULT   Payment Discipline = Adverse History / 15
+  RED FLAG        Loss classification dated 2026-07-21, inside the configured 12-month lookback.
+  OVERRIDE        financial_low, from the shared red-flag override bands
+  FINAL           Payment Discipline = Low / 20
+  parameter       20 → 20
+  PASS  the normal result is the adverse band
+  PASS  the final signal result is the configured Low band
+  PASS  with the configured Low score
+  PASS  the configured status
+  PASS  the configured confidence
+  PASS  and the configured finding
+  PASS  the final parameter score is the configured Low score, not the lower adverse one
+  PASS  the normal signal result is still on the trace
+  PASS  with the score the evidence reached
+
+==============================================================================
+B0b. THE ADVERSE CLASSIFICATION STILL DERIVES 4.8 UNDERNEATH
+==============================================================================
+  adverse band moved to pay_weak → normal Weak / 42
+  final Low / 20
+  PASS  a recent adverse event still raises the red flag
+  PASS  the ordinary derivation follows the re-banded adverse band
+  PASS  with the re-banded score
+  PASS  and the override still lands on the configured Low band
+  PASS  and with the red flag off, the adverse band is what the landlord reads
+
+==============================================================================
+B0c. A SIGNAL OVERRIDE NAMING THAT SIGNAL'S OWN BAND
+==============================================================================
+  4.5 ordinarily   Moderate
+  4.5 overridden   Limited — "Recent adverse credit history requires review before proceeding."
+  PASS  the configured band supplies the result
+  PASS  resolved from that signal's own threshold table
+  PASS  the configured wording supplies the finding
+  PASS  the ordinary conclusion is kept on the trace
+  PASS  with the score the evidence reached
+  PASS  and the configured band's score applied
+
+==============================================================================
+B1. LOOKBACK BOUNDARY — today, 1, 11, 12, 13, 24 months
+==============================================================================
+  PASS   0 months ago → triggers   (0 months old, inside the 12-month lookback (boundary inclusive))
+  PASS   1 months ago → triggers   (1 months old, inside the 12-month lookback (boundary inclusive))
+  PASS  11 months ago → triggers   (11 months old, inside the 12-month lookback (boundary inclusive))
+  PASS  12 months ago → triggers   (12 months old, inside the 12-month lookback (boundary inclusive))
+  PASS  13 months ago → does not trigger   (13 months old, outside the 12-month lookback)
+  PASS  24 months ago → does not trigger   (24 months old, outside the 12-month lookback)
+  PASS  an exclusive boundary excludes exactly 12 months
+
+==============================================================================
+B2. THE LOOKBACK IS CONFIGURABLE
+==============================================================================
+  PASS  12 months: a 9-month-old event triggers
+  PASS  6 months: the same event no longer triggers
+  PASS  12 months: an 18-month-old event does not trigger
+  PASS  24 months: the same event now triggers
+
+==============================================================================
+B3. EVENT TYPES, EACH ON ITS OWN
+==============================================================================
+  PASS  a recent substandard (SUB) raises the flag   (leading substandard)
+  PASS  a recent doubtful (DBT) raises the flag   (leading doubtful)
+  PASS  a recent loss (LSS) raises the flag   (leading loss)
+  PASS  a recent write-off raises the flag   (leading loss)
+  PASS  a recent settlement raises the flag   (leading settled)
+  PASS  a recent suit filed raises the flag   (leading suit_filed)
+  PASS  an undated write-off does not trigger under requireDatedEvent   (no date could be established for the event; a dated event is required)
+  PASS  and the lender's last-reported date is never used as the event date
+  PASS  switching requireDatedEvent off counts it
+
+==============================================================================
+B4. WHAT DOES NOT TRIGGER
+==============================================================================
+  PASS  a clean file raises nothing   No adverse credit classification was reported.
+  PASS  a missing bureau record is not a default
+  PASS  missing income is not a default
+  PASS  an old adverse event stays old
+  PASS  the module can be switched off entirely
+  PASS  and then nothing is overridden
+  PASS  a classification outside the trigger list does not fire
+
+==============================================================================
+B5. MULTIPLE QUALIFYING EVENTS — ONE OVERRIDE, ONE REASON
+==============================================================================
+  events considered: 5
+    loss           2026-07-21   QUALIFIES  2 months old, inside the 12-month lookback (boundary inclusive)
+    doubtful       2026-05-21   QUALIFIES  4 months old, inside the 12-month lookback (boundary inclusive)
+    written_off    2026-07-21   QUALIFIES  2 months old, inside the 12-month lookback (boundary inclusive)
+    suit_filed     2026-07-21   QUALIFIES  2 months old, inside the 12-month lookback (boundary inclusive)
+    settled        2026-07-21   QUALIFIES  2 months old, inside the 12-month lookback (boundary inclusive)
+  leading reason: Loss classification dated 2026-07-21, inside the configured 12-month lookback.
+  PASS  several qualifying events are all kept internally
+  PASS  one leading reason is selected by the configured precedence
+  PASS  each affected parameter is overridden at most once
+  PASS  no parameter is penalised once per event
+  PASS  including the one whose own score was lower than the band
+
+==============================================================================
+B6. THE OVERRIDE COMES FROM THE CONFIGURED BAND
+==============================================================================
+    rent_to_income_fit                   35 → 20   weight 25%  contribution 5
+    credit_behaviour                  70.18 → 20   weight 15%  contribution 3
+    payment_discipline                   20 → 20   weight 10%  contribution 2
+    financial_depth                      70 → 20   weight 15%  contribution 3
+    overdue_amount                      100 → 20   weight 0%  contribution 0
+  PASS  every overridden parameter took the band's score
+  PASS  editing the band changes what an override is worth
+  PASS  and moves the ORA score with it
+    4.8 signal:         evidence 15 → band 20
+    payment_discipline: source   20 → applied 20
+  PASS  the raise happens at the SIGNAL layer, where the evidence's band is lower
+  PASS  and the parameter lands on the same band
+  PASS  a parameter whose source was not overridden still moves to the band
+  PASS  the overridden SIGNAL follows the band too
+  PASS  with the band's score
+
+==============================================================================
+B7. THE ORA ARITHMETIC RECONCILES — no hidden penalty
+==============================================================================
+  outside the lookback   ORA 54.1  (red flag false)
+  inside  the lookback   ORA 31.25  (red flag true)
+
+  parameter                         weight   before    after   contribution
+  rent_to_income_fit                 25%       35       20         5
+  credit_behaviour                   15%    70.18       20         3
+  payment_discipline                 10%       15       20         2
+  permanent_address_completeness     10%      n/a      n/a         0
+  address_completeness                5%      100      100         5
+  address_stability                  10%      n/a      n/a         0
+  financial_depth                    15%       70       20         3
+  recent_credit_activity              0%      n/a      n/a         0
+  data_confidence                    10%       70       70         7
+  overdue_amount                      0%      100       20         0
+  Σ(score × weight) ÷ 80 = 31.25
+  PASS  the ORA score is exactly the weighted mean of the overridden scores
+  PASS  the red flag lowered the ORA score
+  PASS  the reason codes state the override rather than a point deduction
+
+==============================================================================
+B8. ZERO-WEIGHT PARAMETERS CHANGE INTERNALLY AND CONTRIBUTE NOTHING
+==============================================================================
+    recent_credit_activity   weight 0%  score null  contribution 0  overridden false
+  PASS  recent_credit_activity never contributes to the ORA score
+  PASS  recent_credit_activity stays excluded rather than overridden
+    overdue_amount           weight 0%  score 20  contribution 0  overridden true
+  PASS  overdue_amount never contributes to the ORA score
+  PASS  overdue_amount is overridden internally
+  PASS  a 0%-weight parameter with a value does change internally
+
+==============================================================================
+B9. THE EVIDENCE SURVIVES THE OVERRIDE
+==============================================================================
+  4.8 reported     Low / High / score 20
+  4.8 ordinarily   Adverse History / score 15
+  rule fired       red-flag override → financial_low, from the shared red-flag override bands (ordinarily pay_adverse = 15)
+  4.5 reported     Moderate (not in the seeded signal-override list)
+  PASS  the un-overridden signals still state what the evidence says
+  PASS  the normalised classification is still on the record
+  PASS  and it carries the date it was derived from
+  PASS  a parameter override keeps the score its source produced   (normal 70, applied 20)
+
+==============================================================================
+B10. RED FLAG WITH MISSING INCOME
+==============================================================================
+  4.1  Insufficient Data  (score null)
+  rent_to_income_fit  available false  score null
+  PASS  the red flag still fires on the adverse evidence
+  PASS  missing income stays missing rather than becoming Low
+  PASS  and its parameter stays excluded rather than overridden to a low score
+
+==============================================================================
+B11. EXCEPTION AND OVERRIDE ARE SEPARATE MECHANISMS
+==============================================================================
+  exceptions: identity_mismatch, source_conflict, red_flag_recent_adverse
+  4.27 = 3   4.28 = Low
+  PASS  the red flag raises exactly one exception
+  PASS  the exception label names no date, amount or bureau code
+  PASS  switching the exception off leaves the override working
+  PASS  and removes the exception
+  PASS  the ORA score is the same either way
+
+==============================================================================
+B12. LANDLORD DISCLOSURE
+==============================================================================
+  PASS  the landlord report never names the event date
+  PASS  the landlord report never names the bureau code
+  PASS  the landlord report never names the internal classification
+  PASS  the landlord report never names the write-off amount
+  PASS  the landlord report never names the rule id
+  PASS  the landlord report never names the lookback
+  4.8 as the landlord reads it: Low
+  PASS  the landlord wording is configurable
+
+==============================================================================
+C. THE FOUR REGRESSION TENANTS AND THE TWO YASHRAJ MODES
+==============================================================================
+  tenant               age  4.21  4.28  ORA     rating        diagnostic  red flag
+  tanish                 5   100   100   77.29  VERY_GOOD          79.62  false
+  PASS  tanish raises no red flag   No adverse credit classification was reported.
+  yashraj                5   100   100   95.34  EXCELLENT          76.99  false
+  PASS  yashraj raises no red flag   No adverse credit classification was reported.
+  thin-file              3   100   100    82.3  VERY_GOOD          80.61  false
+  PASS  thin-file raises no red flag   No adverse credit classification was reported.
+  established-clean      3   100   100   93.44  EXCELLENT          85.56  false
+  PASS  established-clean raises no red flag   No adverse credit classification was reported.
+
+MODE A — V42 REFERENCE REPRODUCTION
+  source data   samples/yashraj/prefill.json + cibil.json, proposed rent ₹40,000
+  date          2026-09-18 — the reference assessment date (the bureau score date)
+  weights       factory / reference weights: Permanent Address 8%, Recent Credit Activity 2%
+  presentation  reference capacity rule: 35% of income net of obligations, rounded down to ₹10,000 (display only)
+  recency       reference recency: source-date policy OFF — v42 had no recency behaviour, so the record age stays unknown
+  meaning       28/28 means v42 COMPATIBILITY: each signal matches ora-tenant-report-v42.html.
+  → ORA 94.06  EXCELLENT  diagnostic 76.44  age null
+  PASS  MODE A ORA is still 94.06   94.06
+  PASS  MODE A diagnostic is still 76.44   76.44
+  PASS  MODE A record age stays unknown, as v42 had it
+  PASS  MODE A raises no red flag
+
+MODE B — LIVE ORA CONFIGURATION
+  source data   samples/yashraj/prefill.json + cibil.json, proposed rent ₹40,000
+  date          2026-09-21 — the current assessment date
+  weights       active saved weights: Permanent Address 10%, Recent Credit Activity 0%
+  presentation  factory capacity rule: 70% of assessable income, no obligations term, rounded down to ₹1,000
+  recency       factory recency: source-date policy ON — the record age is the latest qualifying source date
+  meaning       Results here are the LIVE CONFIGURED OUTPUT under the active saved configuration. They are not a v42 claim.
+  → ORA 95.34  EXCELLENT  diagnostic 76.99  age 5
+  PASS  MODE B ORA is still 95.34   95.34
+  PASS  MODE B now has a record age
+  PASS  MODE B raises no red flag
+
+==============================================================================
+RESULT — 146 passed, 0 failed
+==============================================================================

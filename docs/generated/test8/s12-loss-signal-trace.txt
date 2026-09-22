@@ -1,0 +1,23 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.8 Payment Discipline
+  SOURCE FIELDS      cibil.maxDpd, cibil.cleanPaymentRecords, cibil.recentDelinquency, cibil.accounts[].monthlyPayStatus, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount, cibil.accounts[].suitFiledStatus
+  RAW EVIDENCE       bureau accounts: 3
+  RAW EVIDENCE       monthly status markers: 108
+  RAW EVIDENCE       bureau adverse markers: LSS
+  RAW EVIDENCE       write-off / settlement amounts: none
+  NORMALIZED         clean months: 107
+  NORMALIZED         no-data months: 0
+  NORMALIZED         adverse months: 1
+  NORMALIZED         adverse classifications: loss (Loss classification) from LSS — Credit Card — AXIS BANK: monthly status
+  DERIVED FACT       worst DPD: unavailable
+  DERIVED FACT       delays: none
+  DERIVED FACT       anchor account: Auto Loan since 2023-02-20 (36/36 clean)
+  DERIVED FACT       leading classification: Loss classification (configured precedence)
+  RULE               adverse credit classification (Loss classification [LSS]) → pay_adverse
+  FORMULA            band = adverse classification present ? configured adverse band : threshold containing max DPD
+  THRESHOLD          pay_adverse: 90 to ∞ → Adverse History (score 15)
+  RESULT             Adverse History
+  CONFIDENCE         High
+  FINDING            Auto loan paid every month since February 2023; no reported delay; an adverse credit classification is reported on the credit record.
+  WEIGHTED INTO      Payment Discipline (10%)

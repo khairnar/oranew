@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/integration/route": "/api/integration",
+  "/api-test/page": "/api-test",
+  "/compare/page": "/compare",
+  "/internal/page": "/internal",
+  "/page": "/",
+  "/new-simulation/page": "/new-simulation",
+  "/extracted/page": "/extracted",
+  "/settings/page": "/settings",
+  "/scoring/page": "/scoring",
+  "/report/page": "/report"
+}

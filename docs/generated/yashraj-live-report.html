@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TR-2109-0618</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>body{margin:0}/*
+ * ORA Tenant Screening Report — v42 stylesheet.
+ *
+ * Taken from the reference report `ora-tenant-report-v42.html` and scoped to
+ * `.ora-doc` so it cannot leak into the surrounding application chrome. The
+ * values, spacing, typography, badges, zebra rows, responsive behaviour and
+ * print rules are the reference report's own.
+ */
+
+.ora-doc {
+  --bg: #eef1f0;
+  --paper: #ffffff;
+  --card: #ffffff;
+  --panel: #f4f6f5;
+  --zebra: #fafbfa;
+  --line: #e1e5e3;
+  --line-2: #cbd2cf;
+  --ink: #1b1f1d;
+  --ink-2: #3e4542;
+  --steel: #5f6864;
+  --muted: #7a837f;
+  --gold: #8c6e24;
+  --gold-2: #b8933a;
+  --gold-bg: #fbf4e1;
+  --gold-line: #e6d3a3;
+  --green: #17a387;
+  --mint: #17a387;
+  --red: #c8503f;
+  --on-red: #ffffff;
+  --grey: #e7eae8;
+  --grey-ink: #5f6864;
+  --a: var(--gold);
+  --r: var(--red);
+  --sans: "Inter", Arial, Helvetica, sans-serif;
+  --serif: "Playfair Display", Georgia, serif;
+
+  max-width: 820px;
+  margin: 24px auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(27, 31, 29, 0.08);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  position: relative;
+}
+
+.ora-doc * {
+  box-sizing: border-box;
+}
+
+.ora-page {
+  background: #eef1f0;
+  padding: 1px 0;
+}
+
+@media (max-width: 860px) {
+  .ora-doc {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+/* header band */
+.ora-doc .band {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 18px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.ora-doc .band .id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ora-doc .band .id .logo {
+  width: 176px;
+  height: auto;
+  border-radius: 10px;
+  flex: none;
+  display: block;
+}
+@media (max-width: 560px) {
+  .ora-doc .band .id .logo {
+    width: 150px;
+  }
+}
+.ora-doc .band .id .t1 {
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  line-height: 1;
+}
+.ora-doc .band .id .t2 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  line-height: 1.5;
+  max-width: 200px;
+}
+.ora-doc .band .rt {
+  text-align: right;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--steel);
+}
+.ora-doc .band .rt b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.ora-doc .band .conf {
+  display: inline-block;
+  border: 1px solid var(--gold-line);
+  background: var(--gold-bg);
+  color: var(--gold);
+  padding: 2px 9px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  border-radius: 999px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+@media (max-width: 560px) {
+  .ora-doc .band {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+  }
+  .ora-doc .band .rt {
+    text-align: left;
+  }
+}
+
+.ora-doc .body {
+  padding: 22px 28px 30px;
+}
+@media (max-width: 560px) {
+  .ora-doc .body {
+    padding: 16px 14px 24px;
+  }
+}
+
+/* section headings */
+.ora-doc .sec {
+  margin-top: 26px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+}
+.ora-doc .sec h2 {
+  margin: 0 0 12px;
+  color: var(--steel);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--line);
+}
+.ora-doc .sec h3 {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 16px 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ora-doc p {
+  margin: 0 0 8px;
+}
+.ora-doc .small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ora-doc ol,
+.ora-doc ul {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+.ora-doc li {
+  margin-bottom: 3px;
+}
+
+/* tables */
+.ora-doc table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  margin: 6px 0 4px;
+}
+.ora-doc th,
+.ora-doc td {
+  text-align: left;
+  vertical-align: top;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+}
+.ora-doc th {
+  background: var(--panel);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ora-doc tbody tr:nth-child(even) td {
+  background: var(--zebra);
+}
+.ora-doc td.k {
+  color: var(--steel);
+  width: 30%;
+  font-weight: 500;
+}
+.ora-doc .tw {
+  overflow-x: auto;
+}
+
+/* badges */
+.ora-doc .rag {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+.ora-doc .rag.g {
+  background: var(--mint);
+}
+.ora-doc .rag.a {
+  background: var(--a);
+}
+.ora-doc .rag.r {
+  background: var(--r);
+}
+.ora-doc .rag.n {
+  background: var(--grey-ink);
+}
+.ora-doc .res {
+  font-weight: 600;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .ora-doc .res {
+    white-space: normal;
+  }
+}
+.ora-doc .badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.ora-doc .badge.g {
+  background: #e6f6f1;
+  color: #0f7a66;
+  border: 1px solid #bfe7db;
+}
+.ora-doc .badge.a {
+  background: var(--gold-bg);
+  color: var(--gold);
+  border: 1px solid var(--gold-line);
+}
+.ora-doc .badge.r {
+  background: #fce9e6;
+  color: #b3261e;
+  border: 1px solid #f0c2bc;
+}
+.ora-doc .badge.n {
+  background: var(--grey);
+  color: var(--grey-ink);
+  border: 1px solid var(--line-2);
+}
+@media (max-width: 640px) {
+  .ora-doc .badge {
+    white-space: normal;
+  }
+}
+.ora-doc .key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 8px 0 2px;
+}
+
+/* summary box */
+.ora-doc .overall {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 8px 0 12px;
+}
+.ora-doc .overall > div {
+  padding: 14px 16px;
+}
+.ora-doc .overall .left {
+  background: #eaf7f3;
+  color: #0f7a66;
+  border-left: 5px solid #17a387;
+}
+.ora-doc .overall .left.g {
+  background: #eaf7f3;
+  border-left-color: #17a387;
+}
+.ora-doc .overall .left.a {
+  background: var(--gold);
+  color: #1a1507;
+  border-left-color: var(--gold-2);
+}
+.ora-doc .overall .left.r {
+  background: var(--red);
+  color: var(--on-red);
+  border-left-color: #9c3c2d;
+}
+.ora-doc .overall .left.n {
+  background: var(--grey);
+  color: var(--grey-ink);
+  border-left-color: var(--line-2);
+}
+.ora-doc .overall .left .l {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--steel);
+  font-weight: 600;
+}
+.ora-doc .overall .left.a .l,
+.ora-doc .overall .left.r .l {
+  color: inherit;
+  opacity: 0.85;
+}
+.ora-doc .overall .left .v {
+  font-size: 21px;
+  font-weight: 800;
+  margin-top: 2px;
+  letter-spacing: 0.01em;
+  color: #0f7a66;
+}
+.ora-doc .overall .left.a .v,
+.ora-doc .overall .left.r .v,
+.ora-doc .overall .left.n .v {
+  color: inherit;
+}
+.ora-doc .overall .left .s {
+  font-size: 12.5px;
+  margin-top: 4px;
+  color: var(--ink-2);
+}
+.ora-doc .overall .left.a .s,
+.ora-doc .overall .left.r .s {
+  color: inherit;
+  opacity: 0.9;
+}
+.ora-doc .overall .right {
+  background: var(--panel);
+}
+.ora-doc .overall .right .l {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--steel);
+  font-weight: 600;
+}
+.ora-doc .overall .right .v {
+  margin-top: 4px;
+}
+.ora-doc .overall .right .v .badge {
+  font-size: 14px;
+  padding: 5px 13px;
+}
+.ora-doc .overall .right .s {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+@media (max-width: 560px) {
+  .ora-doc .overall {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* signals table responsive */
+.ora-doc .sig th:nth-child(1) {
+  width: 44px;
+}
+.ora-doc .sig th:nth-child(3) {
+  width: 160px;
+}
+.ora-doc .sig th:nth-child(4) {
+  width: 92px;
+}
+@media (max-width: 640px) {
+  .ora-doc .sig thead {
+    display: none;
+  }
+  .ora-doc .sig,
+  .ora-doc .sig tbody,
+  .ora-doc .sig tr,
+  .ora-doc .sig td {
+    display: block;
+    width: 100%;
+  }
+  .ora-doc .sig tr {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .ora-doc .sig td {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 7px 10px;
+    background: var(--paper) !important;
+  }
+  .ora-doc .sig td:last-child {
+    border-bottom: 0;
+  }
+  .ora-doc .sig td::before {
+    content: attr(data-l);
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .ora-doc .sig td.no {
+    display: none;
+  }
+  .ora-doc .sig td.name {
+    font-weight: 700;
+    color: var(--gold);
+    background: var(--panel) !important;
+  }
+}
+
+/* footer */
+.ora-doc .foot {
+  border-top: 1px solid var(--line);
+  margin-top: 26px;
+  padding-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* confidentiality */
+.ora-doc .cstrip {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--panel);
+  color: var(--ink-2);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  padding: 7px 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.ora-doc .cstrip .tag {
+  background: var(--gold-2);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  padding: 2px 9px;
+  font-size: 10px;
+  border-radius: 999px;
+  flex: none;
+}
+.ora-doc .cstrip svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--gold-2);
+}
+.ora-doc .cstrip span {
+  white-space: normal;
+  line-height: 1.35;
+}
+@media (max-width: 560px) {
+  .ora-doc .cstrip {
+    padding: 7px 12px;
+  }
+}
+
+.ora-doc .wm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 84px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: rgba(20, 49, 90, 0.14);
+  -webkit-text-stroke: 1px rgba(20, 49, 90, 0.2);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 6;
+  user-select: none;
+}
+@media (max-width: 560px) {
+  .ora-doc .wm {
+    font-size: 40px;
+  }
+}
+
+/*
+ * The red-flag notice. Deliberately the loudest thing in section 1, because it
+ * is the one line a landlord must not read past. It carries wording only — the
+ * event behind it never appears here.
+ */
+.ora-doc .redflag {
+  border: 2px solid #b3261e;
+  background: #fff1f0;
+  color: #7a1f1a;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  margin: 12px 0 0;
+  border-radius: 0;
+}
+.ora-doc .redflag b {
+  display: inline-block;
+  margin-right: 6px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ora-doc .notice {
+  border: 1px solid #e5b7b4;
+  background: #fff6f5;
+  color: #7a1f1a;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  margin: 12px 0 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: 0;
+}
+.ora-doc .notice svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: #b3261e;
+}
+.ora-doc .notice b {
+  color: #b3261e;
+}
+
+.ora-doc .pfoot {
+  display: none;
+}
+
+@media print {
+  .ora-page {
+    background: #fff;
+    padding: 0;
+  }
+  .ora-doc {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    max-width: none;
+    padding-top: 34px;
+    padding-bottom: 30px;
+    box-shadow: none;
+  }
+  .ora-doc .cstrip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .ora-doc .pfoot {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding: 4px 0;
+    background: #fff;
+  }
+  .ora-doc .wm {
+    position: fixed;
+  }
+  .ora-doc * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .ora-doc tr,
+  .ora-doc .overall {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 14mm 12mm;
+  }
+}
+</style>
+</head>
+<body>
+<div class="ora-page"><div class="ora-doc">
+<div class="cstrip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="tag">CONFIDENTIAL</span><span>Prepared solely for Aarav Mehta for the tenancy at ₹40,000 a month, Thane. Not to be used for any other purpose or shared with any other party.</span></div>
+<div class="wm">CONFIDENTIAL</div>
+<div class="band">
+  <div class="id"><img class="logo" src="data:image/jpeg;base64,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" alt="ORA"><div><div class="t2">TENANT SCREENING REPORT BY RENTENPE</div></div></div>
+  <div class="rt">Report reference <b>TR-2109-0618</b><br>Date of report <b>21 September 2026</b><br><span class="conf">CONFIDENTIAL</span></div>
+</div>
+<div class="body">
+<div class="tw"><table><tbody>
+<tr><td class="k">Tenant</td><td>YASHRAJ SAH, male, born 8 April 1999 (27 years)</td></tr>
+<tr><td class="k">Prepared for</td><td>Aarav Mehta, landlord</td></tr>
+<tr><td class="k">Purpose</td><td>Tenant screening, proposed rent ₹40,000 a month, Thane</td></tr>
+<tr><td class="k">Validity</td><td>30 days from the date of report</td></tr>
+<tr><td class="k">Issued to</td><td>Aarav Mehta only. Not to be forwarded.</td></tr>
+<tr><td class="k">Permitted use</td><td>Screening for the stated tenancy. No other purpose.</td></tr>
+<tr><td class="k">Data handling</td><td>Retrieved from regulated data sources for tenant screening; delete when the tenancy decision is made or after 30 days.</td></tr>
+</tbody></table></div>
+<div class="notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div><b>Confidential.</b> This report contains the tenant's personal and financial data. It is issued to Aarav Mehta solely to decide on the stated tenancy and must not be used for any other purpose, copied, or shared with any other person or organisation.</div></div>
+
+<div class="sec"><h2>1. Summary of findings</h2>
+<div class="overall">
+  <div class="left g"><div class="l">OVERALL ASSESSMENT</div><div class="v">RENT FIT: STRONGLY SUPPORTED</div><div class="s">For ₹40,000 a month</div></div>
+  <div class="right"><div class="l">CONFIDENCE</div><div class="v"><span class="badge g">High</span></div><div class="s">Income basis unavailable. High once salary slips are received.</div></div>
+</div>
+<div class="tw"><table><thead><tr><th>Dimension</th><th>Rating</th><th>Basis</th></tr></thead><tbody>
+<tr><td>Identity confidence</td><td class="res"><span class="badge g">Very Strong</span></td><td>Name, date of birth, mobile, PAN, CKYC agree across the supplied sources.</td></tr>
+<tr><td>Residence stability</td><td class="res"><span class="badge a">Requires Confirmation</span></td><td>3 residences on record; current one not settled.</td></tr>
+<tr><td>Employment evidence</td><td class="res"><span class="badge a">Salaried, employer to confirm</span></td><td>Employer changed within the available records; tenure not on record.</td></tr>
+<tr><td>Credit behaviour</td><td class="res"><span class="badge g">Generally Strong</span></td><td>Credit score: 760–780 — Very Good. Housing loan paid every month since October 2024; one 4-day delay, April 2026.</td></tr>
+<tr><td>Financial depth</td><td class="res"><span class="badge g">Very High</span></td><td>Very High financial depth based on the available credit profile.</td></tr>
+<tr><td>Rent capacity</td><td class="res"><span class="badge g">Strongly Supported</span></td><td>Income evidence supports the ₹25,001 to ₹50,000 rent band if the reported income figure is annual; rent capacity up to ₹1,37,400.</td></tr>
+</tbody></table></div>
+<div class="key"><span><span class="badge g">Satisfactory</span></span><span><span class="badge a">Confirmation required</span></span><span><span class="badge r">Adverse</span></span><span><span class="badge n">Not assessed</span></span></div>
+</div>
+
+<div class="sec"><h2>2. Verification</h2>
+<div class="tw"><table><thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead><tbody>
+<tr><td>PAN</td><td class="res"><span class="badge g">Matched</span></td><td>KF******98G, returned by the supplied sources</td></tr>
+<tr><td>Aadhaar</td><td class="res"><span class="badge n">Not available</span></td><td>No Aadhaar data returned</td></tr>
+<tr><td>Passport</td><td class="res"><span class="badge n">Not available</span></td><td>No passport data returned</td></tr>
+<tr><td>Mobile</td><td class="res"><span class="badge g">Matched</span></td><td>Same number across all sources; 9 records on file</td></tr>
+<tr><td>CKYC identifier</td><td class="res"><span class="badge g">Matched</span></td><td>CKYC identifier returned by the supplied sources</td></tr>
+<tr><td>Address</td><td class="res"><span class="badge a">Found</span></td><td>Navi Mumbai and Mumbai and Thane addresses across the supplied sources; physical verification pending</td></tr>
+<tr><td>Background check (BGV)</td><td class="res"><span class="badge n">Pending</span></td><td>Court records and address verification not run</td></tr>
+</tbody></table></div>
+<p class="small">Found: returned by a source. Matched: identical across all sources. Verified: checked with the issuing authority.</p></div>
+
+<div class="sec"><h2>3. Tenant profile</h2>
+<div class="tw"><table><tbody>
+<tr><td class="k">Full name</td><td>YASHRAJ SAH</td></tr>
+<tr><td class="k">Date of birth</td><td>8 April 1999</td></tr>
+<tr><td class="k">Gender</td><td>Male</td></tr>
+<tr><td class="k">Marital status</td><td>Not available</td></tr>
+<tr><td class="k">Mobile</td><td>******2106, same number across 9 records</td></tr>
+<tr><td class="k">Alternate number</td><td>Not available</td></tr>
+<tr><td class="k">Email</td><td>YASHRAJ8848@GMAIL.COM; yashraj.sah@liquiloans.com; yashraj.s@minkville.com</td></tr>
+<tr><td class="k">PAN</td><td>KF******98G, returned by the supplied sources</td></tr>
+<tr><td class="k">CKYC identifier</td><td>XXXXXXXXXX0115, returned by the supplied sources</td></tr>
+<tr><td class="k">Other identity documents</td><td>Not available</td></tr>
+<tr><td class="k">Current address</td><td>FLAT NO 1806 LODHA CASAVIVA B WING TOWER 1 MAJIWADA THANE FLAT NO 1806 LODHA CASAVIVA NEXT TO LODHA PRIVA, Thane, 400601</td></tr>
+<tr><td class="k">Permanent address</td><td>S/O Vijay Kumar Sah, S/O VIJAY KUMAR SAH SHREE SAI CHS LTDROW HOUSE NO-02 PLOT NO-56 SECTOR-18 A NERUL NAVI MUMBAINEAR SHIV MANDIR NERUL N THANE, Navi Mumbai, 400706</td></tr>
+<tr><td class="k">Other address</td><td>FLAT NO 1006 TOWER F MICL ARADHYA HIGH PARK NEAR DAHISAR CHECK NAKA MIRA ROAD THANE, Thane, 401107</td></tr>
+<tr><td class="k">Office address</td><td>THE QUBE A WING 7TH FLOOR LIQUILOANS MAROL ANDHERI EAST THE QUBE A WING 7TH FLOOR NEXT TO MITTAL COMMERCIA, Mumbai, 400059</td></tr>
+<tr><td class="k">Employment</td><td>Salaried. Liquiloans; Rentenpe; Minkville</td></tr>
+<tr><td class="k">Reported income</td><td>Estimated monthly income range: ₹1,50,000–₹2,00,000/month, subject to income verification.</td></tr>
+</tbody></table></div></div>
+
+<div class="sec"><h2>4. Detailed signals</h2>
+<div class="tw"><table class="sig"><thead><tr><th>No.</th><th>Signal</th><th>Result</th><th>Confidence</th><th>Finding</th></tr></thead><tbody>
+<tr><td class="no" data-l="No.">4.1</td><td class="name" data-l="Signal">Rent Affordability</td><td class="res" data-l="Result"><span class="badge g">Strongly Supported</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Income evidence supports the ₹25,001 to ₹50,000 rent band if the reported income figure is annual.</td></tr>
+<tr><td class="no" data-l="No.">4.2</td><td class="name" data-l="Signal">Rent Capacity Band</td><td class="res" data-l="Result"><span class="badge a">Up to ₹1,37,400</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Can support rent up to ₹1,37,400/month if the reported income figure is annual. Above ₹1,00,000, income verification required.</td></tr>
+<tr><td class="no" data-l="No.">4.3</td><td class="name" data-l="Signal">Income Confidence</td><td class="res" data-l="Result"><span class="badge a">Low</span></td><td data-l="Confidence">Basis unavailable</td><td data-l="Finding">Income is reported, but its basis is unavailable; supporting income documentation would increase confidence.</td></tr>
+<tr><td class="no" data-l="No.">4.4</td><td class="name" data-l="Signal">Income Group</td><td class="res" data-l="Result"><span class="badge g">A, conditional</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Income group is conditional because the reported income basis is not independently established.</td></tr>
+<tr><td class="no" data-l="No.">4.5</td><td class="name" data-l="Signal">Financial Depth</td><td class="res" data-l="Result"><span class="badge g">Very High</span></td><td data-l="Confidence">High</td><td data-l="Finding">Very High financial depth based on the available credit profile.</td></tr>
+<tr><td class="no" data-l="No.">4.6</td><td class="name" data-l="Signal">Financial Maturity</td><td class="res" data-l="Result"><span class="badge g">Mature</span></td><td data-l="Confidence">High</td><td data-l="Finding">Credit history of 57 months; 29 accounts.</td></tr>
+<tr><td class="no" data-l="No.">4.7</td><td class="name" data-l="Signal">Financial Stress Signal</td><td class="res" data-l="Result"><span class="badge g">None</span></td><td data-l="Confidence">High</td><td data-l="Finding">Nothing overdue; no adverse event.</td></tr>
+<tr><td class="no" data-l="No.">4.8</td><td class="name" data-l="Signal">Payment Discipline</td><td class="res" data-l="Result"><span class="badge g">Generally Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">Housing loan paid every month since October 2024; one 4-day delay, April 2026.</td></tr>
+<tr><td class="no" data-l="No.">4.9</td><td class="name" data-l="Signal">City Stability</td><td class="res" data-l="Result"><span class="badge g">Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">All recorded residences fall within the configured Mumbai metropolitan region.</td></tr>
+<tr><td class="no" data-l="No.">4.10</td><td class="name" data-l="Signal">Permanent Address Footprint</td><td class="res" data-l="Result"><span class="badge g">Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">Permanent address on record, fully recorded, repeated across sources.</td></tr>
+<tr><td class="no" data-l="No.">4.11</td><td class="name" data-l="Signal">Professional Footprint</td><td class="res" data-l="Result"><span class="badge g">Established</span></td><td data-l="Confidence">High</td><td data-l="Finding">Occupation stated, employer named, corporate email domain, office address.</td></tr>
+<tr><td class="no" data-l="No.">4.12</td><td class="name" data-l="Signal">Corporate Email Footprint</td><td class="res" data-l="Result"><span class="badge a">Multiple associations</span></td><td data-l="Confidence">High</td><td data-l="Finding">liquiloans.com and minkville.com; current employer to confirm.</td></tr>
+<tr><td class="no" data-l="No.">4.13</td><td class="name" data-l="Signal">Office Footprint</td><td class="res" data-l="Result"><span class="badge g">Available</span></td><td data-l="Confidence">High</td><td data-l="Finding">Liquiloans, Andheri (May 2026); Rentenpe, Prabhadevi (September 2025).</td></tr>
+<tr><td class="no" data-l="No.">4.14</td><td class="name" data-l="Signal">Employment Continuity</td><td class="res" data-l="Result"><span class="badge a">Requires Confirmation</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Employer changed within the available records; tenure not on record.</td></tr>
+<tr><td class="no" data-l="No.">4.15</td><td class="name" data-l="Signal">Identity Depth</td><td class="res" data-l="Result"><span class="badge a">Moderate</span></td><td data-l="Confidence">High</td><td data-l="Finding">PAN, CKYC on record; no photo ID data.</td></tr>
+<tr><td class="no" data-l="No.">4.16</td><td class="name" data-l="Signal">Identity Consistency</td><td class="res" data-l="Result"><span class="badge g">Very Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">Name, date of birth, mobile, PAN, CKYC agree across the supplied sources.</td></tr>
+<tr><td class="no" data-l="No.">4.17</td><td class="name" data-l="Signal">Digital Footprint</td><td class="res" data-l="Result"><span class="badge g">Established</span></td><td data-l="Confidence">High</td><td data-l="Finding">3 emails, 1 mobile number on record.</td></tr>
+<tr><td class="no" data-l="No.">4.18</td><td class="name" data-l="Signal">Contact Stability</td><td class="res" data-l="Result"><span class="badge g">Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">1 genuine number across 9 records.</td></tr>
+<tr><td class="no" data-l="No.">4.19</td><td class="name" data-l="Signal">Traceability</td><td class="res" data-l="Result"><span class="badge g">Good</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Phone, email, family home, family reference on record; no second number.</td></tr>
+<tr><td class="no" data-l="No.">4.20</td><td class="name" data-l="Signal">Profile Consistency</td><td class="res" data-l="Result"><span class="badge g">Strong</span></td><td data-l="Confidence">High</td><td data-l="Finding">No material mismatch between sources.</td></tr>
+<tr><td class="no" data-l="No.">4.21</td><td class="name" data-l="Signal">Data Confidence</td><td class="res" data-l="Result"><span class="badge g">High</span></td><td data-l="Confidence">High</td><td data-l="Finding">2 sources, recent, consistent; all critical evidence present. 4 optional fields not returned.</td></tr>
+<tr><td class="no" data-l="No.">4.22</td><td class="name" data-l="Signal">Background Confidence</td><td class="res" data-l="Result"><span class="badge n">Pending</span></td><td data-l="Confidence">Not assessed</td><td data-l="Finding">Court and address checks not run.</td></tr>
+<tr><td class="no" data-l="No.">4.23</td><td class="name" data-l="Signal">Vehicle Profile</td><td class="res" data-l="Result"><span class="badge n">No vehicle record</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">No vehicle-linked record in the sources.</td></tr>
+<tr><td class="no" data-l="No.">4.24</td><td class="name" data-l="Signal">Household Profile</td><td class="res" data-l="Result"><span class="badge g">Family-linked</span></td><td data-l="Confidence">High</td><td data-l="Finding">S/O Vijay Kumar Sah; family address on record.</td></tr>
+<tr><td class="no" data-l="No.">4.25</td><td class="name" data-l="Signal">Occupancy Strength</td><td class="res" data-l="Result"><span class="badge a">Requires Confirmation</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">3 residences on record; current one not settled.</td></tr>
+<tr><td class="no" data-l="No.">4.26</td><td class="name" data-l="Signal">Reference Readiness</td><td class="res" data-l="Result"><span class="badge a">Partial</span></td><td data-l="Confidence">Medium</td><td data-l="Finding">Family reference available; no alternate number or previous landlord.</td></tr>
+<tr><td class="no" data-l="No.">4.27</td><td class="name" data-l="Signal">Exception Flags</td><td class="res" data-l="Result"><span class="badge a">2</span></td><td data-l="Confidence">Confirmable</td><td data-l="Finding">Current residence not settled; employer tenure unavailable.</td></tr>
+<tr><td class="no" data-l="No.">4.28</td><td class="name" data-l="Signal">ORA Profile Confidence</td><td class="res" data-l="Result"><span class="badge g">High</span></td><td data-l="Confidence">Overall</td><td data-l="Finding">Strong, consistent profile; 2 confirmable gaps.</td></tr>
+</tbody></table></div></div>
+
+<div class="sec"><h2>5. Methodology</h2><p>ORA applies a structured, multi-factor assessment methodology to evaluate a tenant's rental profile across defined parameters, including identity, residence, occupation, financial capacity, credit behaviour, repayment conduct and rent suitability.</p>
+<p>Information obtained from available and permissible sources is evaluated and, where applicable, cross-validated across relevant data points to assess its consistency, reliability and relevance within the context of the proposed tenancy.</p>
+<p>The assessment represents a consolidated evaluation of the information available at the time of review. No individual parameter, data point, score or indicator is considered determinative in isolation; the assessment outcome is derived from the collective consideration of relevant factors under the ORA assessment methodology.</p></div>
+<div class="sec"><h2>6. Disclaimer</h2><p class="small">Prepared by ORA (RentenPe) from regulated data sources retrieved for tenant screening. Figures are as returned by the sources and are not verified unless marked Verified. This report supports the recipient's decision and does not constitute a decision or a guarantee of future conduct. Confidential to the named recipient; valid for 30 days; use for this tenancy only.</p></div>
+
+<div class="foot"><span>ORA by RentenPe</span><span>Tenant Screening Report TR-2109-0618</span><span>Confidential. Not to be used for any other purpose.</span></div>
+</div></div></div>
+</body></html>

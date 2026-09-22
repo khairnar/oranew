@@ -1,0 +1,359 @@
+ORA Internal Assessment Report
+Admin only. Contains income, bureau score, obligations and internal scoring. Do not share with a landlord.
+ASSESSMENT METADATA
+Report ID
+ORA-TEST13-PDF-V1
+Simulation ID
+test13-pdf
+Generated at
+21/9/2026, 3:30:00 pm
+Configuration
+ORA Default Scoring Configuration v1
+Configuration ID
+ora-default-v1
+Input hash
+396bf50e3037f19a
+SCORES
+ORA score
+34.44
+Overall ORA rating
+REQUIRES_REVIEW
+Pre-exception rating
+FAIR
+Internal diagnostic score
+65.77  diagnostic category score, does not determine the ORA Score.
+INCOME AND OBLIGATIONS
+Income frequency
+unknown
+Frequency source
+unknown
+Inference method
+not applicable
+Inference confidence
+not_assessed
+Annual-monthly candidate
+7083.33
+Monthly EMI total
+none reported
+Assessable monthly income
+not derivable
+Rent-to-income ratio
+not calculable
+Debt-to-income ratio
+not calculable
+Bureau score
+690
+TOP-LEVEL ORA SCORING (AUTHORITATIVE)
+ORA Score = Σ(parameter score × top-level weight) ÷ Σ(contributing top-level weight)
+PARAMETER
+SCORE
+WEIGHT
+CONTRIBUTION
+SOURCE
+Rent-to-Income Fit
+20.00
+25%
+5.00
+signal:rent_affordability
+Credit Behaviour
+20.00
+15%
+3.00
+category:credit_appetite
+Payment Discipline
+20.00
+10%
+2.00
+signal:payment_discipline
+Permanent Address Completeness
+
+10%
+0.00
+dataPoint:permanent_address_c
+Address Completeness
+100.00
+5%
+5.00
+dataPoint:address_completenes
+Address Stability
+85.00
+10%
+8.50
+dataPoint:address_stability_cros
+Financial Depth
+20.00
+15%
+3.00
+signal:financial_depth
+Recent Credit Activity
+
+0%
+0.00
+dataPoint:recent_credit_activity
+Data Confidence
+45.00
+10%
+4.50
+signal:data_confidence
+Overdue Amount
+20.00
+0%
+0.00
+dataPoint:overdue_amount
+Sum of score x weight
+3100
+Contributing weight
+90%
+ORA score
+34.44
+Rating band
+overall_fair: 0 to 59.9999 → FAIR
+INTERNAL CATEGORY DIAGNOSTICS
+Diagnostic category score  does not determine the ORA Score.
+CATEGORY
+SCORE
+WEIGHT
+CONTRIBUTION
+Income Capacity
+58.00
+10%
+5.80
+Payment Discipline
+77.53
+15%
+11.63
+Default History
+51.24
+15%
+7.69
+Employment Stability
+68.57
+10%
+6.86
+KYC Status
+75.93
+7.5%
+5.69
+INTERNAL ADMIN REPORT  NOT FOR THE LANDLORD
+ORA-TEST13-PDF-V1
+Identity Confidence
+52.00
+7.5%
+3.90
+Address Stability
+82.67
+4%
+3.31
+Standard of Living
+65.00
+0%
+0.00
+Credit Appetite
+70.18
+15%
+10.53
+City Stability
+80.67
+3%
+2.42
+Permanent Address Footprint
+62.00
+3%
+1.86
+Contact Traceability
+66.44
+5%
+3.32
+ORA Data Confidence
+55.31
+5%
+2.77
+Legal Footprint
+85.00
+0%
+0.00
+Vehicle Footprint
+65.00
+0%
+0.00
+Tenant Readiness / Reference Readiness
+66.00
+0%
+0.00
+Internal diagnostic score
+65.77
+SOURCE RECENCY (INTERNAL)
+Source-date policy
+on
+Qualifying dates
+documentDate, cibil.scoreDate, cibil.accountReportedOn, cibil.phoneReportedOn,
+cibil.emailReportedOn, cibil.addressReportedOn, prefill.phoneReportedOn,
+prefill.emailReportedOn, prefill.addressReportedOn
+Earliest plausible date
+2000-01-01
+Future dates
+clamped to the assessment date
+CIBIL Report
+2025-08-17  400 days, via cibil.accountReportedOn, cibil.addressReportedOn,
+cibil.phoneReportedOn, cibil.scoreDate
+Prefill API
+2025-08-17  400 days, via prefill.addressReportedOn, prefill.emailReportedOn,
+prefill.phoneReportedOn
+Document-level date
+none stated by either vendor
+Latest source date
+2025-08-17
+Record age
+400 days (ageing)
+Configured bands
+recent to 180 days, ageing to 540 days, stale beyond
+RED-FLAG POLICY (INTERNAL)
+Policy
+on
+Rule
+redFlag.recentAdverse
+Threshold
+12-month lookback, boundary inclusive; events on or after 2025-09-21
+Trigger types
+loss, doubtful, substandard, written_off, settled, suit_filed, wilful_default
+Undated events
+never trigger
+Active
+true
+Reason
+Loss classification dated 2026-07-21, inside the configured 12-month lookback.
+Leading event Loss classification
+LSS · 2026-07-21 (monthly status marker) · QUALIFIES: 2 months old, inside the 12-month
+lookback (boundary inclusive) · from Personal Loan  TEST BANK: monthly status
+Event Write-off
+woAmountTotal · 2026-07-21 (monthly status marker) · QUALIFIES: 2 months old, inside
+the 12-month lookback (boundary inclusive) · from Personal Loan  TEST BANK: write-off
+amount reported
+Signal override payment_discipline
+NORMAL Adverse History (15) -> OVERRIDE financial_low, from the shared red-flag
+override bands -> FINAL Low (20)
+Parameter override rent_to_income_fit
+35 -> 20 (band financial_low), weight 25%, contributes 5
+Parameter override credit_behaviour
+70.18 -> 20 (band financial_low), weight 15%, contributes 3
+Parameter override payment_discipline
+20 -> 20 (band financial_low), weight 10%, contributes 2
+Parameter override financial_depth
+70 -> 20 (band financial_low), weight 15%, contributes 3
+Parameter override overdue_amount
+100 -> 20 (band financial_low), weight 0%, contributes 0
+Not applied recent_credit_activity
+the parameter's own source was unavailable, so it stays excluded rather than penalised
+Exception
+red_flag_recent_adverse raised
+DATA QUALITY
+Missing fields
+profile.ckyc, contact.mobile, contact.officeEmail, employment.employer, income.frequency,
+address.permanent.line
+Critical missing fields
+contact.mobile, income.frequency
+Conflicts
+profile.name
+INTERNAL ADMIN REPORT  NOT FOR THE LANDLORD
+ORA-TEST13-PDF-V1
+RISK FLAGS
+HIGH Serious identity mismatch
+Identity fields do not reconcile across the supplied sources.
+HIGH Serious repayment issue
+Repayment delays of 90 days or more are reported.
+LOW Missing income frequency
+The source does not state the income reporting basis, so monthly income cannot be
+derived.
+REASON CODES
+- EXCLUDED_FACTORS: recent_credit_activity, rent_to_income_ratio, permanent_address_completeness, standard_of_living_finance (missing source
+data)
+- CONFIDENCE_PENALTY: -18 applied to ORA Data Confidence
+- OVERALL_OVERRIDDEN_BY_EXCEPTION: Serious identity mismatch, Serious repayment issue
+- RENT: income frequency not stated by the source -> REQUIRES_VERIFICATION
+- ORA_SCORE: 34.44 (Σ parameter score × top-level weight ÷ 90)
+- OVERALL_ORA_RATING: REQUIRES_REVIEW (mapped from the ORA score)
+- INTERNAL_DIAGNOSTIC_SCORE: 65.77 (category analysis  does not determine the ORA score or rating)
+- RED_FLAG_ACTIVE: Loss classification dated 2026-07-21, inside the configured 12-month lookback. Overrode 5 parameter(s): rent_to_income_fit 35 →
+20; credit_behaviour 70.18 → 20; payment_discipline 20 → 20; financial_depth 70 → 20; overdue_amount 100 → 20. No penalty is applied to the ORA score
+itself.
+- [Income Capacity] INCOME_AVAILABILITY: income_present -> GOOD (An income figure is reported.)
+- [Income Capacity] INCOME_FREQUENCY_KNOWN: income_freq_unknown -> REQUIRES_VERIFICATION (The source does not state whether the
+income is monthly, annual or weekly.)
+- [Income Capacity] RENT_TO_INCOME_RATIO: MISSING -> EXCLUDED FROM SCORING (confidence reduced)
+- [Income Capacity] INCOME_VERIFICATION: income_verified_no -> REQUIRES_VERIFICATION (Income is reported but not independently verified.)
+- [Income Capacity] INCOME_SOURCE_CONSISTENCY: MISSING -> REQUIRES_VERIFICATION (use_missing_rating)
+- [Income Capacity] INCOME_CAPACITY: OVERRIDE income_capacity_unknown_frequency -> REQUIRES_VERIFICATION
+- [Payment Discipline] OVERDUE_ACCOUNTS: overdue_none -> EXCELLENT (No overdue account reported.)
+- [Payment Discipline] MAX_DPD: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Payment Discipline] CLEAN_PAYMENT_RECORDS: clean_0_5 -> GOOD (Limited reported payment history.)
+- [Payment Discipline] RECENT_DELINQUENCY: recent_delinquency_no -> VERY_GOOD (No recent delinquency reported.)
+- [Payment Discipline] OVERDUE_AMOUNT: overdue_amount_zero -> EXCELLENT (No qualifying overdue amount reported.)
+- [Default History] WRITE_OFF: write_off_yes -> FAIR (A write-off is reported.)
+- [Default History] SETTLEMENT: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] RESTRUCTURING: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] SUIT_FILED: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] WILFUL_DEFAULT: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Default History] SERIOUS_DELINQUENCY: serious_delinquency_yes -> FAIR (Serious delinquency reported.)
+- [Employment Stability] EMPLOYMENT_TYPE: employment_salaried -> VERY_GOOD (Reported as salaried.)
+- [Employment Stability] EMPLOYER_AVAILABILITY: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Employment Stability] EMPLOYMENT_TENURE: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Employment Stability] EMPLOYMENT_VERIFICATION: employment_verified_no -> PENDING_VERIFICATION (Employment is reported but not
+verified.)
+- [Employment Stability] OFFICE_EMAIL_EMPLOYMENT: office_email_emp_no -> PENDING_VERIFICATION (No corporate email address on record.)
+- [KYC Status] PAN_AVAILABILITY: pan_available_yes -> EXCELLENT (PAN is available.)
+- [KYC Status] CKYC_AVAILABILITY: ckyc_available_no -> PENDING_VERIFICATION (CKYC identifier was not available.)
+- [KYC Status] DOCUMENT_PRESENCE: document_presence_1 -> GOOD (One identity document present.)
+- [KYC Status] DOCUMENT_VERIFICATION: document_verified_no -> PENDING_VERIFICATION (Documents are present but not independently
+verified.)
+- [KYC Status] KYC_EMAIL_AVAILABILITY: kyc_email_yes -> VERY_GOOD (Email address on record.)
+- [Identity Confidence] NAME_MATCH: name_match_no -> FAIR (Name differs between supplied sources.)
+- [Identity Confidence] DOB_MATCH: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Identity Confidence] MOBILE_MATCH: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Identity Confidence] IDENTITY_MISMATCH: identity_mismatch_yes -> REQUIRES_REVIEW (A material identity mismatch was reported.)
+- [Identity Confidence] DUPLICATE_IDENTITY: duplicate_identity_no -> VERY_GOOD (No duplicate identity records reported.)
+- [Address Stability] RESIDENTIAL_ADDRESS_AVAILABILITY: res_address_present -> VERY_GOOD (A residential address is available.)
+- [Address Stability] ADDRESS_COMPLETENESS: addr_complete_90 -> EXCELLENT (Address record is complete.)
+- [Address Stability] ADDRESS_STABILITY_CROSS_SOURCE: addr_repeat_1 -> VERY_GOOD (One address repeats across Prefill and CIBIL.)
+- [Address Stability] ADDRESS_CONSISTENCY: addr_consistent_yes -> VERY_GOOD (Address information is consistent across sources.)
+- [Address Stability] ADDRESS_RECORD_COUNT: addr_records_1 -> GOOD (A single address record available.)
+- [Address Stability] ADDRESS_VERIFICATION: addr_verified_no -> PENDING_VERIFICATION (Address is reported but not independently verified.)
+- [Standard of Living] STANDARD_OF_LIVING_FINANCE: MISSING -> EXCLUDED FROM SCORING
+- [Standard of Living] STANDARD_OF_LIVING: ALL_DATA_POINTS_MISSING -> NOT_ASSESSED
+- [Credit Appetite] CIBIL_SCORE: cibil_680_719 -> FAIR (Score between 680 and 719.)
+- [Credit Appetite] CREDIT_FILE_AGE: file_age_60plus -> EXCELLENT (Credit file older than five years.)
+- [Credit Appetite] CREDIT_UTILISATION: MISSING -> INSUFFICIENT_DATA (use_missing_rating)
+- [Credit Appetite] RECENT_CREDIT_ACTIVITY: MISSING -> EXCLUDED FROM SCORING (confidence reduced)
+- [Credit Appetite] CREDIT_ACCOUNT_COUNT: accounts_1_2 -> GOOD (A small number of reported accounts.)
+- [City Stability] CITY_CONSISTENCY: city_consistent_yes -> VERY_GOOD (City is consistent across address records.)
+- [City Stability] CITY_RECORD_DEPTH: city_depth_1 -> GOOD (A single record supports the city footprint.)
+- [Permanent Address Footprint] PERMANENT_ADDRESS_AVAILABILITY: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+INTERNAL ADMIN REPORT  NOT FOR THE LANDLORD
+ORA-TEST13-PDF-V1
+- [Permanent Address Footprint] PERMANENT_ADDRESS_COMPLETENESS: MISSING -> EXCLUDED FROM SCORING (confidence reduced)
+- [Permanent Address Footprint] PERMANENT_ADDRESS_FOOTPRINT: ALL_DATA_POINTS_MISSING -> PENDING_VERIFICATION
+- [Contact Traceability] MOBILE_AVAILABILITY: mobile_available_no -> FAIR (No mobile number available.)
+- [Contact Traceability] PERSONAL_EMAIL_AVAILABILITY: personal_email_yes -> VERY_GOOD (A personal email address is available.)
+- [Contact Traceability] OFFICE_EMAIL_CONTACT: office_email_contact_no -> GOOD (No corporate email address available.)
+- [Contact Traceability] CONTACT_CHANNEL_COUNT: channels_1 -> GOOD (One reliable contact channel available.)
+- [Contact Traceability] CONTACT_CONSISTENCY: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Contact Traceability] CONTACT_VERIFICATION: contact_verified_no -> PENDING_VERIFICATION (Contact details are not independently verified.)
+- [ORA Data Confidence] SOURCE_COUNT: sources_2 -> VERY_GOOD (Two independent sources supplied.)
+- [ORA Data Confidence] DATA_COMPLETENESS: completeness_60 -> GOOD (Core data available, some verification pending.)
+- [ORA Data Confidence] REPORT_AGE: age_365_plus -> FAIR (Records are over twelve months old.)
+- [ORA Data Confidence] CRITICAL_MISSING_COUNT: critical_missing_2 -> GOOD (Two critical fields are missing.)
+- [ORA Data Confidence] CONFLICT_COUNT: conflicts_1 -> GOOD (One conflict between sources.)
+- [ORA Data Confidence] CIBIL_AVAILABILITY: cibil_available -> VERY_GOOD (Bureau information is available.)
+- [ORA Data Confidence] ORA_DATA_CONFIDENCE: 73.31 - 18 (excluded factors) -> 55.31 -> FAIR
+- [Legal Footprint] CRIMINAL_INDICATOR: MISSING -> NONE_REPORTED (use_missing_rating)
+- [Legal Footprint] LEGAL_CASE_COUNT: MISSING -> NONE_REPORTED (use_missing_rating)
+- [Legal Footprint] LEGAL_FOOTPRINT: ALL_DATA_POINTS_MISSING -> NONE_REPORTED
+- [Vehicle Footprint] VEHICLE_COUNT: MISSING -> NOT_ASSESSED (use_missing_rating)
+- [Vehicle Footprint] VEHICLE_FOOTPRINT: ALL_DATA_POINTS_MISSING -> NOT_ASSESSED
+- [Tenant Readiness / Reference Readiness] REFERENCE_AVAILABLE: MISSING -> PENDING_VERIFICATION (use_missing_rating)
+- [Tenant Readiness / Reference Readiness] TENANT_READINESS_INDEX: readiness_40_59 -> GOOD (Documentation and contactability are
+adequate.)
+- [Exception Flags] EXCEPTION_FLAGS: Serious identity mismatch, Serious repayment issue
+- [Overall Rent Score] OVERALL_RENT_SCORE mirrors the overall tenant rating (REQUIRES_REVIEW).
+- [Rent Affordability] RENT: income frequency not stated by the source -> REQUIRES_VERIFICATION
+INTERNAL ADMIN REPORT  NOT FOR THE LANDLORD
+ORA-TEST13-PDF-V1

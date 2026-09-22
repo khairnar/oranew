@@ -1,0 +1,456 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.1 Rent Affordability
+  SOURCE FIELDS      simulation.proposedRent, prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 2355516
+  RAW EVIDENCE       proposed rent: 40000
+  NORMALIZED         income basis: not stated
+  NORMALIZED         monthly income: 196293
+  NORMALIZED         conditional: true
+  DERIVED FACT       rent-to-income %: 20.38
+  DERIVED FACT       total obligations %: 20.38
+  DERIVED FACT       capacity: 137400
+  RULE               rent.rtr = 20.38 → rtr_0_25
+  FORMULA            RTR = proposed monthly rent ÷ normalised monthly income × 100
+  THRESHOLD          rtr_0_25: -1 to 25 → Strongly Supported (score 100)
+  RESULT             Strongly Supported
+  CONFIDENCE         Medium
+  FINDING            Income evidence supports the ₹25,001 to ₹50,000 rent band if the reported income figure is annual.
+  WEIGHTED INTO      Rent-to-Income Fit (25%)
+
+4.2 Rent Capacity Band
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 2355516
+  NORMALIZED         income basis: not stated
+  NORMALIZED         assessable monthly income: 196293
+  NORMALIZED         conditional: true
+  DERIVED FACT       capacity percentage: 70%
+  DERIVED FACT       obligations deducted: none — EMI is not an input
+  DERIVED FACT       calculated capacity: 137405.1
+  DERIVED FACT       rounding step: 100
+  DERIVED FACT       rounded capacity: 137400
+  RULE               capacity = floor((assessable monthly income × 70%) ÷ 100) × 100 — obligations are not an input
+  FORMULA            capacity = floor((assessable monthly income × capacity %) ÷ rounding) × rounding
+  THRESHOLD          no threshold matched
+  RESULT             Up to ₹1,37,400
+  CONFIDENCE         Medium
+  FINDING            Can support rent up to ₹1,37,400/month if the reported income figure is annual. Above ₹1,00,000, income verification required.
+
+4.3 Income Confidence
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis, income.verified, income.sourceConsistent
+  RAW EVIDENCE       reported income: 2355516
+  NORMALIZED         basis stated: false
+  NORMALIZED         verified: false
+  DERIVED FACT       assessable monthly: 196293
+  DERIVED FACT       conditional: true
+  RULE               income evidence → basis_unknown
+  THRESHOLD          inc_low: when basis_unknown
+  RESULT             Low
+  CONFIDENCE         Basis unavailable
+  FINDING            Income is reported, but its basis is unavailable; supporting income documentation would increase confidence.
+
+4.4 Income Group
+  SOURCE FIELDS      prefill.totalIncome, prefill.incomeBasis
+  RAW EVIDENCE       reported income: 2355516
+  NORMALIZED         basis stated: false
+  NORMALIZED         verified: false
+  DERIVED FACT       assessable monthly: 196293
+  DERIVED FACT       conditional: true
+  RULE               monthly income 196293 → income group band
+  FORMULA            group = band containing normalised monthly income
+  THRESHOLD          grp_a: 100000 to 199999 → A (score 70)
+  RESULT             A, conditional
+  CONFIDENCE         Medium
+  FINDING            Income group is conditional because the reported income basis is not independently established.
+
+4.5 Financial Depth
+  SOURCE FIELDS      cibil.accounts[].sanctionedAmount, cibil.accounts[].creditLimit
+  RAW EVIDENCE       bureau accounts: 29
+  RAW EVIDENCE       monthly status markers: 676
+  NORMALIZED         accounts read: 29
+  DERIVED FACT       effective exposure: 8288677
+  RULE               credit.effectiveExposure = 8288677 → depth_very_high
+  FORMULA            effective exposure = Σ (sanctioned or limit × (closed ? closedAccountWeight : 1))
+  THRESHOLD          depth_very_high: 7500000 to ∞ → Very High (score 100)
+  RESULT             Very High
+  CONFIDENCE         High
+  FINDING            Very High financial depth based on the available credit profile.
+  WEIGHTED INTO      Financial Depth (15%)
+
+4.6 Financial Maturity
+  SOURCE FIELDS      cibil.accounts[].openedDate, cibil.totalAccounts
+  RAW EVIDENCE       bureau accounts: 29
+  RAW EVIDENCE       monthly status markers: 676
+  NORMALIZED         oldest account opened: 2021-12-14
+  DERIVED FACT       file age (months): 57
+  DERIVED FACT       accounts: 29
+  RULE               credit.fileAgeMonths = 57 → age_mature
+  FORMULA            file age = months(oldest account opening → report date)
+  THRESHOLD          age_mature: 48 to 83 → Mature (score 90)
+  RESULT             Mature
+  CONFIDENCE         High
+  FINDING            Credit history of 57 months; 29 accounts.
+
+4.7 Financial Stress Signal
+  SOURCE FIELDS      cibil.accounts[].amountOverdue, cibil.accounts[].monthlyPayStatus, cibil.accounts[].creditLimit, cibil.accounts[].currentBalance, cibil.response.consumerSummaryresp.accountSummary, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount
+  RAW EVIDENCE       bureau accounts: 29
+  RAW EVIDENCE       monthly status markers: 676
+  RAW EVIDENCE       account credit limits: Credit Card: limit not reported, cash limit 0, balance 590, Credit Card: limit not reported, cash limit 45000, balance 0, Credit Card: limit not reported, cash limit 31800, balance 22112, Credit Card: limit not reported, cash limit 14000, balance 3503, Credit Card: limit not reported, cash limit not reported, balance 0, Personal Loan: limit not reported, cash limit not reported, balance 0, Credit Card: limit not reported, cash limit not reported, balance 5510, Housing Loan: limit not reported, cash limit not reported, balance 3573767, Property Loan: limit not reported, cash limit not reported, balance 40985, Credit Card: limit not reported, cash limit 50000, balance not reported, Credit Card: limit not reported, cash limit 45500, balance 0, Credit Card: limit not reported, cash limit 127800, balance 4619, Credit Card: limit not reported, cash limit 0, balance 25059, Credit Card: limit not reported, cash limit 88500, balance not reported, Credit Card: limit not reported, cash limit 65000, balance 0, Credit Card: limit not reported, cash limit not reported, balance 0, Credit Card: limit not reported, cash limit 1000, balance 0, Credit Card: limit not reported, cash limit 90000, balance 6407, Credit Card: limit not reported, cash limit 50000, balance 0, Credit Card: limit not reported, cash limit 71000, balance 0, Credit Card: limit not reported, cash limit 0, balance 8523, Credit Card: limit not reported, cash limit not reported, balance 0, Credit Card: limit not reported, cash limit 30000, balance 11868, Credit Card: limit not reported, cash limit 0, balance 305, Credit Card: limit not reported, cash limit 71000, balance 0, Credit Card: limit not reported, cash limit 5000, balance 0, Credit Card: limit not reported, cash limit 71000, balance 0, Credit Card: limit not reported, cash limit 88500, balance not reported, Consumer Loan: limit not reported, cash limit not reported, balance 0
+  NORMALIZED         portfolio credit limit: unavailable — unavailable
+  NORMALIZED         portfolio balance: 3702428 — vendor portfolio total
+  NORMALIZED         portfolio overdue: 0 — sum of account values
+  NORMALIZED         portfolio cash limit (not a denominator): 945100 — sum of account values
+  NORMALIZED         aggregation note: No account reported a credit limit, and the source states no portfolio total. Source summary discarded as sentinels: overdueBalance=-4., Outstanding balance stated by the source as a portfolio total (cibil.response.consumerSummaryresp.accountSummary)., Overdue amount summed across 25 of 29 account rows; 4 reported none and were not counted as zero. Source summary discarded as sentinels: overdueBalance=-4.
+  NORMALIZED         overdue accounts: 0
+  NORMALIZED         adverse events: none
+  DERIVED FACT       utilisation formula: utilisation unavailable: no portfolio credit limit was reported (a cash limit, sanctioned amount or high-credit figure is not a credit limit)
+  DERIVED FACT       utilisation % (exact, measured): unavailable
+  DERIVED FACT       utilisation % (scored, whole percent): unavailable
+  DERIVED FACT       utilisation scoring rule: round half up to a whole percent, clamped to the configured band span 0–1000
+  DERIVED FACT       recent material DPD: unavailable
+  DERIVED FACT       obligations ratio %: 20.38
+  RULE               credit.stressScore = 0 → stress_none
+  FORMULA            stress = overdue points + DPD points + utilisation points + obligation-burden points + adverse-event points
+  THRESHOLD          stress_none: 0 to 0 → None (score 100)
+  RESULT             None
+  CONFIDENCE         High
+  FINDING            Nothing overdue; no adverse event.
+
+4.8 Payment Discipline
+  SOURCE FIELDS      cibil.maxDpd, cibil.cleanPaymentRecords, cibil.recentDelinquency, cibil.accounts[].monthlyPayStatus, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount, cibil.accounts[].suitFiledStatus
+  RAW EVIDENCE       bureau accounts: 29
+  RAW EVIDENCE       monthly status markers: 676
+  RAW EVIDENCE       bureau adverse markers: none
+  RAW EVIDENCE       write-off / settlement amounts: none
+  NORMALIZED         clean months: 656
+  NORMALIZED         no-data months: 19
+  NORMALIZED         adverse months: 0
+  NORMALIZED         adverse classifications: none
+  DERIVED FACT       worst DPD: 4
+  DERIVED FACT       delays: 4d on 2026-04-01
+  DERIVED FACT       anchor account: Housing Loan since 2024-10-31 (24/24 clean)
+  DERIVED FACT       leading classification: unavailable
+  RULE               credit.maxDpd = 4 → pay_strong
+  FORMULA            band = adverse classification present ? configured adverse band : threshold containing max DPD
+  THRESHOLD          pay_strong: 1 to 29 → Generally Strong (score 85)
+  RESULT             Generally Strong
+  CONFIDENCE         High
+  FINDING            Housing loan paid every month since October 2024; one 4-day delay, April 2026.
+  WEIGHTED INTO      Payment Discipline (10%)
+
+4.9 City Stability
+  SOURCE FIELDS      prefill.addresses[].city, prefill.addresses[].pincode, cibil.addresses[].city
+  RAW EVIDENCE       address records: 5
+  RAW EVIDENCE       raw rows by source: Prefill API+CIBIL Report×4, Prefill API×1, Prefill API+CIBIL Report×2, CIBIL Report×1, CIBIL Report×1
+  NORMALIZED         distinct locations: 5
+  NORMALIZED         residences: 3
+  NORMALIZED         offices: 2
+  DERIVED FACT       cities: Navi Mumbai, Mumbai, Thane
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.cityStabilityScore = 3 → city_strong
+  FORMULA            regions = distinct metropolitan regions across all address records
+  THRESHOLD          city_strong: 3 to 3 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            All recorded residences fall within the configured Mumbai metropolitan region.
+
+4.10 Permanent Address Footprint
+  SOURCE FIELDS      prefill.addresses[type=permanent], cibil.addresses[]
+  RAW EVIDENCE       address records: 5
+  RAW EVIDENCE       raw rows by source: Prefill API+CIBIL Report×4, Prefill API×1, Prefill API+CIBIL Report×2, CIBIL Report×1, CIBIL Report×1
+  NORMALIZED         distinct locations: 5
+  NORMALIZED         residences: 3
+  NORMALIZED         offices: 2
+  DERIVED FACT       cities: Navi Mumbai, Mumbai, Thane
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.permanentFootprintScore = 3 → perm_strong
+  FORMULA            score = present + complete + repeated across sources + recent
+  THRESHOLD          perm_strong: 3 to ∞ → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            Permanent address on record, fully recorded, repeated across sources.
+
+4.11 Professional Footprint
+  SOURCE FIELDS      prefill.occupation, prefill.employer, prefill.officeEmail, prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: office address: Liquiloans, corporate email: liquiloans.com, office address: Rentenpe, corporate email: Minkville
+  RAW EVIDENCE       email records: yashraj8848@gmail.com, yashraj.sah@liquiloans.com [corporate], yashraj.s@minkville.com [corporate]
+  RAW EVIDENCE       office address lines: THE QUBE A WING 7TH FLOOR LIQUILOANS MAROL ANDHERI EAST THE QUBE A WING 7TH FLOOR NEXT TO MITTAL COMMERCIA, 314, RENTENPE, PRABHADEVI INDUSTRIAL ESTATE, , SWATANTRA VEER SAVARKAR MARG, PRABHADEVI, , MUMBAI
+  NORMALIZED         occupation: Salaried
+  NORMALIZED         employer identities: Liquiloans [key LIQUILOANS], Rentenpe [key RENTENPE], Minkville [key MINKVILLE]
+  NORMALIZED         supporting evidence per identity: Liquiloans: office address + corporate email, Rentenpe: office address, Minkville: corporate email
+  NORMALIZED         corporate domains: liquiloans.com, minkville.com
+  DERIVED FACT       distinct employers: 3
+  DERIVED FACT       supporting evidence routes: 4
+  DERIVED FACT       office addresses: 2
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.footprintScore = 4 → prof_established
+  FORMULA            score = occupation + employer + corporate email + office address
+  THRESHOLD          prof_established: 3 to ∞ → Established (score 100)
+  RESULT             Established
+  CONFIDENCE         High
+  FINDING            Occupation stated, employer named, corporate email domain, office address.
+
+4.12 Corporate Email Footprint
+  SOURCE FIELDS      prefill.officeEmail, prefill.emails[]
+  RAW EVIDENCE       employer names, as each source gave them: office address: Liquiloans, corporate email: liquiloans.com, office address: Rentenpe, corporate email: Minkville
+  RAW EVIDENCE       email records: yashraj8848@gmail.com, yashraj.sah@liquiloans.com [corporate], yashraj.s@minkville.com [corporate]
+  RAW EVIDENCE       office address lines: THE QUBE A WING 7TH FLOOR LIQUILOANS MAROL ANDHERI EAST THE QUBE A WING 7TH FLOOR NEXT TO MITTAL COMMERCIA, 314, RENTENPE, PRABHADEVI INDUSTRIAL ESTATE, , SWATANTRA VEER SAVARKAR MARG, PRABHADEVI, , MUMBAI
+  NORMALIZED         occupation: Salaried
+  NORMALIZED         employer identities: Liquiloans [key LIQUILOANS], Rentenpe [key RENTENPE], Minkville [key MINKVILLE]
+  NORMALIZED         supporting evidence per identity: Liquiloans: office address + corporate email, Rentenpe: office address, Minkville: corporate email
+  NORMALIZED         corporate domains: liquiloans.com, minkville.com
+  DERIVED FACT       distinct employers: 3
+  DERIVED FACT       supporting evidence routes: 4
+  DERIVED FACT       office addresses: 2
+  DERIVED FACT       tenure (months): unavailable
+  RULE               contact.corporateEmailDomains.length = 2 → corp_multiple
+  FORMULA            count = distinct non-consumer email domains
+  THRESHOLD          corp_multiple: 2 to ∞ → Multiple associations (score 75)
+  RESULT             Multiple associations
+  CONFIDENCE         High
+  FINDING            liquiloans.com and minkville.com; current employer to confirm.
+
+4.13 Office Footprint
+  SOURCE FIELDS      prefill.addresses[type=office]
+  RAW EVIDENCE       employer names, as each source gave them: office address: Liquiloans, corporate email: liquiloans.com, office address: Rentenpe, corporate email: Minkville
+  RAW EVIDENCE       email records: yashraj8848@gmail.com, yashraj.sah@liquiloans.com [corporate], yashraj.s@minkville.com [corporate]
+  RAW EVIDENCE       office address lines: THE QUBE A WING 7TH FLOOR LIQUILOANS MAROL ANDHERI EAST THE QUBE A WING 7TH FLOOR NEXT TO MITTAL COMMERCIA, 314, RENTENPE, PRABHADEVI INDUSTRIAL ESTATE, , SWATANTRA VEER SAVARKAR MARG, PRABHADEVI, , MUMBAI
+  NORMALIZED         occupation: Salaried
+  NORMALIZED         employer identities: Liquiloans [key LIQUILOANS], Rentenpe [key RENTENPE], Minkville [key MINKVILLE]
+  NORMALIZED         supporting evidence per identity: Liquiloans: office address + corporate email, Rentenpe: office address, Minkville: corporate email
+  NORMALIZED         corporate domains: liquiloans.com, minkville.com
+  DERIVED FACT       distinct employers: 3
+  DERIVED FACT       supporting evidence routes: 4
+  DERIVED FACT       office addresses: 2
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employment.officeAddressCount = 2 → office_available
+  FORMULA            count = address records of type office
+  THRESHOLD          office_available: 1 to 3 → Available (score 92)
+  RESULT             Available
+  CONFIDENCE         High
+  FINDING            Liquiloans, Andheri (May 2026); Rentenpe, Prabhadevi (September 2025).
+
+4.14 Employment Continuity
+  SOURCE FIELDS      prefill.employer, prefill.tenureMonths, prefill.emails[].domain
+  RAW EVIDENCE       employer names, as each source gave them: office address: Liquiloans, corporate email: liquiloans.com, office address: Rentenpe, corporate email: Minkville
+  RAW EVIDENCE       email records: yashraj8848@gmail.com, yashraj.sah@liquiloans.com [corporate], yashraj.s@minkville.com [corporate]
+  RAW EVIDENCE       office address lines: THE QUBE A WING 7TH FLOOR LIQUILOANS MAROL ANDHERI EAST THE QUBE A WING 7TH FLOOR NEXT TO MITTAL COMMERCIA, 314, RENTENPE, PRABHADEVI INDUSTRIAL ESTATE, , SWATANTRA VEER SAVARKAR MARG, PRABHADEVI, , MUMBAI
+  NORMALIZED         occupation: Salaried
+  NORMALIZED         employer identities: Liquiloans [key LIQUILOANS], Rentenpe [key RENTENPE], Minkville [key MINKVILLE]
+  NORMALIZED         supporting evidence per identity: Liquiloans: office address + corporate email, Rentenpe: office address, Minkville: corporate email
+  NORMALIZED         corporate domains: liquiloans.com, minkville.com
+  DERIVED FACT       distinct employers: 3
+  DERIVED FACT       supporting evidence routes: 4
+  DERIVED FACT       office addresses: 2
+  DERIVED FACT       tenure (months): unavailable
+  RULE               employer changed and tenure not on record → Requires Confirmation
+  FORMULA            score = single employer + tenure recorded + corporate domain agreement
+  THRESHOLD          cont_confirm: 1 to 1 → Requires Confirmation (score 58)
+  RESULT             Requires Confirmation
+  CONFIDENCE         Medium
+  FINDING            Employer changed within the available records; tenure not on record.
+
+4.15 Identity Depth
+  SOURCE FIELDS      prefill.pan, prefill.ckyc, prefill.documents[]
+  RAW EVIDENCE       identity documents: PAN, CKYC
+  NORMALIZED         PAN: true
+  NORMALIZED         CKYC: true
+  NORMALIZED         photo ID: false
+  DERIVED FACT       document count: 2
+  DERIVED FACT       matched fields: name, date of birth, mobile, PAN, CKYC
+  DERIVED FACT       mismatched fields: none
+  RULE               identity.documentCount = 2 → id_moderate
+  FORMULA            count = distinct identity documents
+  THRESHOLD          id_moderate: 2 to 2 → Moderate (score 70)
+  RESULT             Moderate
+  CONFIDENCE         High
+  FINDING            PAN, CKYC on record; no photo ID data.
+
+4.16 Identity Consistency
+  SOURCE FIELDS      prefill.name, prefill.dob, prefill.pan, prefill.ckyc, cibil.consumerName
+  RAW EVIDENCE       identity documents: PAN, CKYC
+  NORMALIZED         PAN: true
+  NORMALIZED         CKYC: true
+  NORMALIZED         photo ID: false
+  DERIVED FACT       document count: 2
+  DERIVED FACT       matched fields: name, date of birth, mobile, PAN, CKYC
+  DERIVED FACT       mismatched fields: none
+  RULE               identity.consistencyScore = 5 → cons_very_strong
+  FORMULA            score = matched shared fields, or negative when any field disagrees
+  THRESHOLD          cons_very_strong: 4 to ∞ → Very Strong (score 100)
+  RESULT             Very Strong
+  CONFIDENCE         High
+  FINDING            Name, date of birth, mobile, PAN, CKYC agree across the supplied sources.
+
+4.17 Digital Footprint
+  SOURCE FIELDS      prefill.emails[], prefill.mobile
+  RAW EVIDENCE       phone records: 9
+  RAW EVIDENCE       email records: 3
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.digitalScore = 4 → dig_established
+  FORMULA            score = distinct emails + corporate domain present + consistent mobile
+  THRESHOLD          dig_established: 4 to ∞ → Established (score 100)
+  RESULT             Established
+  CONFIDENCE         High
+  FINDING            3 emails, 1 mobile number on record.
+
+4.18 Contact Stability
+  SOURCE FIELDS      prefill.mobile, prefill.phones[], cibil.mobile
+  RAW EVIDENCE       phone records: 9
+  RAW EVIDENCE       email records: 3
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.genuinePhoneCount = 1 → contact_strong
+  FORMULA            count = distinct genuine numbers after placeholder removal
+  THRESHOLD          contact_strong: 1 to 1 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            1 genuine number across 9 records.
+
+4.19 Traceability
+  SOURCE FIELDS      prefill.mobile, prefill.email, prefill.addresses[], prefill.familyRelation
+  RAW EVIDENCE       phone records: 9
+  RAW EVIDENCE       email records: 3
+  NORMALIZED         genuine numbers: 1
+  NORMALIZED         alternate number: false
+  DERIVED FACT       contact channels: 2
+  RULE               contact.traceabilityScore = 4 → trace_good
+  FORMULA            score = phone + email + permanent address + family reference
+  THRESHOLD          trace_good: 3 to ∞ → Good (score 100)
+  RESULT             Good
+  CONFIDENCE         Medium
+  FINDING            Phone, email, family home, family reference on record; no second number.
+
+4.20 Profile Consistency
+  SOURCE FIELDS      meta.conflicts, identity.mismatchedFields, address.consistent
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence, employer_tenure
+  RULE               meta.conflictCount = 0 → prof_cons_strong
+  FORMULA            count = detected cross-source conflicts
+  THRESHOLD          prof_cons_strong: 0 to 0 → Strong (score 100)
+  RESULT             Strong
+  CONFIDENCE         High
+  FINDING            No material mismatch between sources.
+
+4.21 Data Confidence
+  SOURCE FIELDS      meta.sourceCount, meta.completenessPct, meta.reportAgeDays, meta.conflicts
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence, employer_tenure
+  RULE               meta.dataConfidenceScore = 96 → data_high
+  FORMULA            score = source coverage + completeness + recency − conflicts − critical gaps
+  THRESHOLD          data_high: 75 to ∞ → High (score 100)
+  RESULT             High
+  CONFIDENCE         High
+  FINDING            2 sources, recent, consistent; all critical evidence present. 4 optional fields not returned.
+  WEIGHTED INTO      Data Confidence (10%)
+
+4.22 Background Confidence
+  SOURCE FIELDS      bgv.status, bgv.courtRecords, bgv.addressVerification
+  RAW EVIDENCE       BGV provider: unavailable
+  NORMALIZED         check run: false
+  DERIVED FACT       status: not run
+  RULE               missing-data rule (background verification)
+  THRESHOLD          missing-data rule
+  RESULT             Pending
+  CONFIDENCE         Not assessed
+  FINDING            Court and address checks not run.
+  MISSING            background verification
+
+4.23 Vehicle Profile
+  SOURCE FIELDS      cibil.accounts[].accountType
+  RAW EVIDENCE       bureau accounts: 29
+  RAW EVIDENCE       monthly status markers: 676
+  NORMALIZED         vehicle-classified accounts: 0
+  DERIVED FACT       count: 0
+  RULE               credit.autoLoanCount = 0 → veh_none
+  FORMULA            count = accounts classified as vehicle finance
+  THRESHOLD          veh_none: 0 to 0 → No vehicle record (score 65)
+  RESULT             No vehicle record
+  CONFIDENCE         Medium
+  FINDING            No vehicle-linked record in the sources.
+
+4.24 Household Profile
+  SOURCE FIELDS      prefill.familyRelation, prefill.addresses[type=permanent]
+  RAW EVIDENCE       address records: 5
+  NORMALIZED         relationship on record: S/O Vijay Kumar Sah
+  DERIVED FACT       permanent address: true
+  DERIVED FACT       alternate number: false
+  RULE               household.householdScore = 2 → house_family
+  FORMULA            score = explicit family relation + family address on record
+  THRESHOLD          house_family: 2 to ∞ → Family-linked (score 100)
+  RESULT             Family-linked
+  CONFIDENCE         High
+  FINDING            S/O Vijay Kumar Sah; family address on record.
+
+4.25 Occupancy Strength
+  SOURCE FIELDS      prefill.addresses[], address.recordCount, address.crossSourceMatch
+  RAW EVIDENCE       address records: 5
+  RAW EVIDENCE       raw rows by source: Prefill API+CIBIL Report×4, Prefill API×1, Prefill API+CIBIL Report×2, CIBIL Report×1, CIBIL Report×1
+  NORMALIZED         distinct locations: 5
+  NORMALIZED         residences: 3
+  NORMALIZED         offices: 2
+  DERIVED FACT       cities: Navi Mumbai, Mumbai, Thane
+  DERIVED FACT       cross-source match: true
+  DERIVED FACT       current settled: false
+  DERIVED FACT       permanent completeness: 100
+  RULE               residence.occupancyScore = 1 → occ_confirm
+  FORMULA            score = settled current address + few distinct residences + cross-source repetition
+  THRESHOLD          occ_confirm: 1 to 1 → Requires Confirmation (score 55)
+  RESULT             Requires Confirmation
+  CONFIDENCE         Medium
+  FINDING            3 residences on record; current one not settled.
+
+4.26 Reference Readiness
+  SOURCE FIELDS      prefill.familyRelation, prefill.alternateMobile, prefill.previousLandlord
+  RAW EVIDENCE       address records: 5
+  NORMALIZED         relationship on record: S/O Vijay Kumar Sah
+  DERIVED FACT       permanent address: true
+  DERIVED FACT       alternate number: false
+  RULE               household.referenceScore = 1 → ref_partial
+  FORMULA            score = family reference + alternate number + previous landlord
+  THRESHOLD          ref_partial: 1 to 2 → Partial (score 70)
+  RESULT             Partial
+  CONFIDENCE         Medium
+  FINDING            Family reference available; no alternate number or previous landlord.
+
+4.27 Exception Flags
+  SOURCE FIELDS      meta.missingFields, meta.conflicts, identity.mismatchedFields
+  RAW EVIDENCE       signals evaluated: 28
+  NORMALIZED         confirmable gaps: Current residence not settled, Employer tenure unavailable
+  DERIVED FACT       count: 2
+  RULE               exceptions.length = 2 → exc_few
+  FORMULA            count = confirmable gaps detected in the records
+  THRESHOLD          exc_few: 1 to 2 → {count} (score 75)
+  RESULT             2
+  CONFIDENCE         Confirmable
+  FINDING            Current residence not settled; employer tenure unavailable.
+
+4.28 ORA Profile Confidence
+  SOURCE FIELDS      identity.consistencyScore, meta.dataConfidenceScore, residence.occupancyScore, credit.fileAgeMonths, income.basisKnown, exceptions
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths, income.frequency
+  DERIVED FACT       conflicts: 0
+  DERIVED FACT       record age (days): 5
+  DERIVED FACT       exceptions: current_residence, employer_tenure
+  RULE               meta.profileConfidenceScore = 87 → ora_high
+  FORMULA            score = weighted blend of identity, data, residence, financial and income confidence, less unresolved exceptions
+  THRESHOLD          ora_high: 75 to ∞ → High (score 100)
+  RESULT             High
+  CONFIDENCE         Overall
+  FINDING            Strong, consistent profile; 2 confirmable gaps.

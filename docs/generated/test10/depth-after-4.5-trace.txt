@@ -1,0 +1,15 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.5 Financial Depth
+  SOURCE FIELDS      cibil.accounts[].sanctionedAmount, cibil.accounts[].creditLimit
+  RAW EVIDENCE       bureau accounts: 3
+  RAW EVIDENCE       monthly status markers: 108
+  NORMALIZED         accounts read: 3
+  DERIVED FACT       effective exposure: 500000
+  RULE               credit.effectiveExposure = 500000 → depth_low
+  FORMULA            effective exposure = Σ (sanctioned or limit × (closed ? closedAccountWeight : 1))
+  THRESHOLD          depth_low: 100000 to 599999 → Low (score 55)
+  RESULT             Low
+  CONFIDENCE         High
+  FINDING            Low financial depth based on the available credit profile.
+  WEIGHTED INTO      Financial Depth (15%)

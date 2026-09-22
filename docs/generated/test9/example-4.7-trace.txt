@@ -1,0 +1,26 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.7 Financial Stress Signal
+  SOURCE FIELDS      cibil.accounts[].amountOverdue, cibil.accounts[].monthlyPayStatus, cibil.accounts[].creditLimit, cibil.accounts[].currentBalance, cibil.response.consumerSummaryresp.accountSummary, cibil.accounts[].woAmountTotal, cibil.accounts[].settlementAmount
+  RAW EVIDENCE       bureau accounts: 3
+  RAW EVIDENCE       monthly status markers: 108
+  RAW EVIDENCE       account credit limits: Credit Card: limit 500000, cash limit 50000, balance 100000, Personal Loan: limit 300000, cash limit not reported, balance 200000, Auto Loan: limit 450000, cash limit not reported, balance 172000
+  NORMALIZED         portfolio credit limit: 1250000 — sum of account values
+  NORMALIZED         portfolio balance: 472000 — sum of account values
+  NORMALIZED         portfolio overdue: 0 — sum of account values
+  NORMALIZED         portfolio cash limit (not a denominator): 50000 — sum of account values
+  NORMALIZED         aggregation note: Credit limit summed across all 3 account rows., Outstanding balance summed across all 3 account rows., Overdue amount summed across all 3 account rows.
+  NORMALIZED         overdue accounts: 0
+  NORMALIZED         adverse events: none
+  DERIVED FACT       utilisation formula: 472000 ÷ 1250000 × 100 = 37.76%
+  DERIVED FACT       utilisation % (exact, measured): 37.76
+  DERIVED FACT       utilisation % (scored, whole percent): 38
+  DERIVED FACT       utilisation scoring rule: round half up to a whole percent, clamped to the configured band span 0–1000
+  DERIVED FACT       recent material DPD: unavailable
+  DERIVED FACT       obligations ratio %: 48.59
+  RULE               credit.stressScore = 0 → stress_none
+  FORMULA            stress = overdue points + DPD points + utilisation points + obligation-burden points + adverse-event points
+  THRESHOLD          stress_none: 0 to 0 → None (score 100)
+  RESULT             None
+  CONFIDENCE         High
+  FINDING            Nothing overdue; low card usage; no adverse event.

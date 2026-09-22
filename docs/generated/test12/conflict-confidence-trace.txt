@@ -1,0 +1,47 @@
+ORA SIGNAL TRACE — INTERNAL ONLY
+
+4.20 Profile Consistency
+  SOURCE FIELDS      meta.conflicts, identity.mismatchedFields, address.consistent
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths
+  DERIVED FACT       conflicts: 1
+  DERIVED FACT       record age (days): 3
+  DERIVED FACT       exceptions: identity_mismatch, source_conflict
+  RULE               meta.conflictCount = 1 → prof_cons_moderate
+  FORMULA            count = detected cross-source conflicts
+  THRESHOLD          prof_cons_moderate: 1 to 1 → Moderate (score 75)
+  RESULT             Moderate
+  CONFIDENCE         High
+  FINDING            1 field differs between sources.
+
+4.21 Data Confidence
+  SOURCE FIELDS      meta.sourceCount, meta.completenessPct, meta.reportAgeDays, meta.conflicts
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths
+  DERIVED FACT       conflicts: 1
+  DERIVED FACT       record age (days): 3
+  DERIVED FACT       exceptions: identity_mismatch, source_conflict
+  RULE               meta.dataConfidenceScore = 69 → data_medium
+  FORMULA            score = source coverage + completeness + recency − conflicts − critical gaps
+  THRESHOLD          data_medium: 50 to 74 → Medium (score 70)
+  RESULT             Medium
+  CONFIDENCE         Medium
+  FINDING            2 sources, recent; all critical evidence present. 3 optional fields not returned.
+  WEIGHTED INTO      Data Confidence (10%)
+
+4.28 ORA Profile Confidence
+  SOURCE FIELDS      identity.consistencyScore, meta.dataConfidenceScore, residence.occupancyScore, credit.fileAgeMonths, income.basisKnown, exceptions
+  RAW EVIDENCE       sources: Prefill API, CIBIL Report
+  NORMALIZED         missing critical: none
+  NORMALIZED         missing optional: profile.maritalStatus, profile.alternateMobile, employment.tenureMonths
+  DERIVED FACT       conflicts: 1
+  DERIVED FACT       record age (days): 3
+  DERIVED FACT       exceptions: identity_mismatch, source_conflict
+  RULE               meta.profileConfidenceScore = 72 → ora_medium
+  FORMULA            score = weighted blend of identity, data, residence, financial and income confidence, less unresolved exceptions
+  THRESHOLD          ora_medium: 50 to 74 → Medium (score 70)
+  RESULT             Medium
+  CONFIDENCE         Overall
+  FINDING            Strong, consistent profile; 2 confirmable gaps.
